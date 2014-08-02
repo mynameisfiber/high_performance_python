@@ -1,0 +1,228 @@
+
+
+In [10]: sys.getsizeof(int())
+Out[10]: 24
+In [34]: sys.getsizeof(1)
+Out[34]: 24
+In [11]: sys.getsizeof(float())
+Out[11]: 24
+
+In [21]: sys.getsizeof(b"")
+Out[21]: 37
+In [22]: sys.getsizeof(b"a")
+Out[22]: 38
+In [23]: sys.getsizeof(b"ab")
+Out[23]: 39
+In [26]: sys.getsizeof(b"cde")
+Out[26]: 40
+
+# goes up by 8 bytes not 24!
+In [36]: sys.getsizeof([])
+Out[36]: 72
+In [37]: sys.getsizeof([1])
+Out[37]: 80
+In [38]: sys.getsizeof([1,2])
+Out[38]: 88
+
+In [40]: sys.getsizeof([""])
+Out[40]: 80
+In [41]: sys.getsizeof(["abcdefghijklm"])
+Out[41]: 80
+In [42]: sys.getsizeof(["a", "b"])
+Out[42]: 88
+
+asizeof.py
+http://code.activestate.com/recipes/546530/
+
+In [62]: asizeof([])
+Out[62]: 72
+In [63]: asizeof([1])
+Out[63]: 104  # i.e. 72 + 24 + 8
+In [64]: asizeof([1,2])
+Out[64]: 136  
+
+
+# fresh instance
+In [2]: %memit([x for x in xrange(10000000)])
+peak memory: 330.64 MiB, increment: 310.62 MiB
+
+# this takes 30 seconds to run
+In [6]: asizeof([x for x in xrange(10000000)])
+Out[6]: 321528064
+
+
+
+
+
+WARNING you must use memit with large enough examples
+In [1]: %load_ext memory_profiler
+In [2]: %memit [0]*10000
+peak memory: 20.11 MiB, increment: 0.09 MiB
+In [3]: %memit [0]*10000
+peak memory: 20.12 MiB, increment: 0.00 MiB
+# beware that small lists won't be easy to measure
+
+
+
+
+
+
+$ 12_lessram/compressing_text
+
+this is set in text_example.py
+ wc all_unique_words.txt 
+ 499048  499048 5126859 
+ wc all_unique_words_wikipedia_AA.txt  
+ 4842470  4842462 57926495 all_unique_words_wikipedia_AA.txt
+ wc all_unique_words_wikipedia_AABZ.txt 
+ 8545076   8545048 111707546 all_unique_words_wikipedia_AABZ.txt
+
+
+
+
+text_compression (smaller example all_unique_words.txt)
+
+$ python text_example_list.py 
+RAM at start 10.3MiB
+Loading 499048 words
+RAM after creating list 59.4MiB, took 1.7s
+Summed time to lookup word 86.1757s
+
+$ python text_example_list_bisect.py 
+RAM at start 9.7MiB
+Loading 499048 words
+RAM after creating list 59.7MiB, took 1.7s
+The list contains 499048 words
+Sorting list took 0.8s
+Summed time to lookup word 0.0191s
+
+$ python text_example_set.py 
+RAM at start 9.7MiB
+RAM after creating set 70.7MiB, took 1.7s
+The set contains 499048 words
+Summed time to lookup word 0.0036s
+
+$ python text_example_trie.py 
+RAM at start 10.3MiB
+RAM after creating trie 36.1MiB, took 2.9s
+The trie contains 499048 words
+Summed time to lookup word 0.0110s
+
+$ python text_example_dawg.py 
+RAM at start 10.3MiB
+RAM after creating dawg 61.1MiB, took 3.0s
+Summed time to lookup word 0.0057s
+
+# pathological build time! depends on the order of the input data
+$ python text_example_datrie.py 
+RAM at start 9.8MiB
+Created a trie with a dictionary of 95 characters in 2.2s
+RAM after creating trie 41.1MiB, took 53.5s
+The trie contains 499048 words
+Summed time to lookup word 0.0055s
+
+$ python text_example_hattrie.py 
+RAM at start 9.7MiB
+RAM after creating trie 24.0MiB, took 2.3s
+The trie contains 499048 words
+Summed time to lookup word 0.0058s
+
+
+text example using largest data set  (all_unique_words_wikipedia_AABZ.txt)
+
+$ python text_example_list.py 
+<not feasible>
+
+$ python text_example_list_bisect.py 
+RAM at start 10.3MiB
+Loading 8545076 words
+RAM after creating list 932.1MiB, took 31.0s
+The list contains 8545076 words
+Sorting list took 16.9s
+Summed time to lookup word 0.0201s
+
+$ python text_example_set.py 
+RAM at start 10.3MiB
+RAM after creating set 1122.9MiB, took 31.6s
+The set contains 8545076 words
+Summed time to lookup word 0.0033s
+
+$ python text_example_trie.py 
+RAM at start 11.0MiB
+RAM after creating trie 304.7MiB, took 55.3s
+The trie contains 8545076 words
+Summed time to lookup word 0.0101s
+
+$ python text_example_dawg.py 
+RAM at start 10.3MiB
+RAM after creating dawg 968.8MiB, took 63.1s
+Summed time to lookup word 0.0049s
+
+$ python text_example_datrie.py 
+<failed>
+
+$ python text_example_hattrie.py 
+RAM at start 9.7MiB
+RAM after creating trie 254.2MiB, took 44.7s
+The trie contains 8545076 words
+Summed time to lookup word 0.0051s
+
+
+
+
+using
+SUMMARISED_FILE = "all_unique_words_wikipedia_AA.txt"  # 4.8mil approx
+as this can fit into RAM easily
+
+$ python text_example_set.py 
+RAM at start 10.3MiB
+RAM after creating set 602.5MiB, took 17.2s
+The set contains 4842469 words
+Summed time to lookup word 0.0039s
+
+$ python text_example_trie.py 
+RAM at start 11.0MiB
+RAM after creating trie 196.4MiB, took 29.4s
+The trie contains 4842469 words
+Summed time to lookup word 0.0098s
+
+#skipping datrie due to bad build time
+
+$ python text_example_dawg.py 
+RAM at start 10.3MiB
+RAM after creating dawg 572.8MiB, took 33.5s
+Summed time to lookup word 0.0052s
+
+
+$ python text_example_hattrie.py 
+RAM at start 9.7MiB
+RAM after creating trie 150.7MiB, took 24.7s
+The trie contains 4842469 words
+Summed time to lookup word 0.0055s
+
+
+
+python plot_8mil_example.py
+->
+less_ram_tries_dawg_text_8545076_tokens.png
+cp less_ram_tries_dawg_text_8545076_tokens.png ../../../../notebooks/figures/
+
+
+
+
+morris_counter
+12_lessram/morris_counter_example
+$ python show_morris_counter.py
+-> show_morris_counter.png
+cp 12_show_morris_counter.png ../../../../notebooks/figures/
+save figures - big and medium
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,808 @@
+cpu_profiling/
+
+$ python julia1.py
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 12.3479790688 seconds
+300.0
+
+
+$ python julia1_decorator.py
+Length of x: 1000
+Total elements: 1000000
+@timefn:calculate_z_serial_purepython took 12.2218790054 seconds
+calculate_z_serial_purepython took 12.2219250043 seconds
+
+
+$ python -m timeit -n 5 -r 1 -s "import julia1" "julia1.calc_pure_python(draw_output=False, desired_width=1000, max_iterations=300)"
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 12.3450341225 seconds
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 12.3668041229 seconds
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 12.3690929413 seconds
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 12.3781969547 seconds
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 12.3714849949 seconds
+5 loops, best of 1: 13.1 sec per loop
+
+
+$ ipython
+In [1]: import julia1
+In [2]: %timeit julia1.calc_pure_python(draw_output=False, desired_width=1000, max_iterations=300)
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 13.4434831142 seconds
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 13.4005889893 seconds
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 13.4220211506 seconds
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 13.3957569599 seconds
+1 loops, best of 3: 14.1 s per loop
+
+
+
+$ /usr/bin/time -p python julia1_nopil.py 
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 12.7298331261 seconds
+real 13.46
+user 13.40
+sys 0.04
+
+
+$ /usr/bin/time python julia1.py
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 12.7531919479 seconds
+300.0
+13.84user 0.10system 0:13.96elapsed 99%CPU (0avgtext+0avgdata 131956maxresident)k
+0inputs+1968outputs (0major+58973minor)pagefaults 0swaps
+
+$ /usr/bin/time --verbose python julia1.py
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 12.3145110607 seconds
+300.0
+	Command being timed: "python julia1.py"
+	User time (seconds): 13.46
+	System time (seconds): 0.05
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:13.53
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 131952
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 58974
+	Voluntary context switches: 3
+	Involuntary context switches: 26
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 1968
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+
+
+
+$ python -m cProfile -s cumulative julia1_nopil.py
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 18.6270470619 seconds
+         36221992 function calls in 19.664 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.034    0.034   19.664   19.664 julia1_nopil.py:1(<module>)
+        1    0.843    0.843   19.630   19.630 julia1_nopil.py:23(calc_pure_python)
+        1   14.121   14.121   18.627   18.627 julia1_nopil.py:9(calculate_z_serial_purepython)
+ 34219980    4.487    0.000    4.487    0.000 {abs}
+  2002000    0.150    0.000    0.150    0.000 {method 'append' of 'list' objects}
+        1    0.019    0.019    0.019    0.019 {range}
+        1    0.010    0.010    0.010    0.010 {sum}
+        2    0.000    0.000    0.000    0.000 {time.time}
+        4    0.000    0.000    0.000    0.000 {len}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+
+
+
+$ python -m cProfile -o profile.stats julia1_nopil.py
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 18.9855680466 seconds
+->
+-rw-r--r-- 1 ian ian  1379 Jan  7 18:46 profile.stats
+
+
+
+In [1]: import pstats
+
+In [2]: p = pstats.Stats("profile.stats")
+
+In [3]: p.sort_stats("cumulative")
+Out[3]: <pstats.Stats instance at 0x177dcf8>
+
+In [4]: p.print_stats()
+Tue Jan  7 21:00:56 2014    profile.stats
+
+         36221992 function calls in 19.983 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.033    0.033   19.983   19.983 julia1_nopil.py:1(<module>)
+        1    0.846    0.846   19.950   19.950 julia1_nopil.py:23(calc_pure_python)
+        1   13.585   13.585   18.944   18.944 julia1_nopil.py:9(calculate_z_serial_purepython)
+ 34219980    5.340    0.000    5.340    0.000 {abs}
+  2002000    0.150    0.000    0.150    0.000 {method 'append' of 'list' objects}
+        1    0.019    0.019    0.019    0.019 {range}
+        1    0.010    0.010    0.010    0.010 {sum}
+        2    0.000    0.000    0.000    0.000 {time.time}
+        4    0.000    0.000    0.000    0.000 {len}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+Out[4]: <pstats.Stats instance at 0x177dcf8>
+
+In [5]: p.print_callers()
+   Ordered by: cumulative time
+
+Function                                          was called by...
+                                                      ncalls  tottime  cumtime
+julia1_nopil.py:1(<module>)                       <-
+julia1_nopil.py:23(calc_pure_python)              <-       1    0.846   19.950  julia1_nopil.py:1(<module>)
+julia1_nopil.py:9(calculate_z_serial_purepython)  <-       1   13.585   18.944  julia1_nopil.py:23(calc_pure_python)
+{abs}                                             <- 34219980    5.340    5.340  julia1_nopil.py:9(calculate_z_serial_purepython)
+{method 'append' of 'list' objects}               <- 2002000    0.150    0.150  julia1_nopil.py:23(calc_pure_python)
+{range}                                           <-       1    0.019    0.019  julia1_nopil.py:9(calculate_z_serial_purepython)
+{sum}                                             <-       1    0.010    0.010  julia1_nopil.py:23(calc_pure_python)
+{time.time}                                       <-       2    0.000    0.000  julia1_nopil.py:23(calc_pure_python)
+{len}                                             <-       2    0.000    0.000  julia1_nopil.py:9(calculate_z_serial_purepython)
+                                                           2    0.000    0.000  julia1_nopil.py:23(calc_pure_python)
+{method 'disable' of '_lsprof.Profiler' objects}  <-
+
+
+Out[5]: <pstats.Stats instance at 0x177dcf8>
+
+In [6]: p.print_callees()
+   Ordered by: cumulative time
+
+Function                                          called...
+                                                      ncalls  tottime  cumtime
+julia1_nopil.py:1(<module>)                       ->       1    0.846   19.950  julia1_nopil.py:23(calc_pure_python)
+julia1_nopil.py:23(calc_pure_python)              ->       1   13.585   18.944  julia1_nopil.py:9(calculate_z_serial_purepython)
+                                                           2    0.000    0.000  {len}
+                                                     2002000    0.150    0.150  {method 'append' of 'list' objects}
+                                                           1    0.010    0.010  {sum}
+                                                           2    0.000    0.000  {time.time}
+julia1_nopil.py:9(calculate_z_serial_purepython)  -> 34219980    5.340    5.340  {abs}
+                                                           2    0.000    0.000  {len}
+                                                           1    0.019    0.019  {range}
+{abs}                                             ->
+{method 'append' of 'list' objects}               ->
+{range}                                           ->
+{sum}                                             ->
+{time.time}                                       ->
+{len}                                             ->
+{method 'disable' of '_lsprof.Profiler' objects}  ->
+
+
+
+
+
+
+
+decorator_time/
+
+$ python julia1_decorator.py 
+Length of x: 1000
+Total elements: 1000000
+@timefn:calculate_z_serial_purepython took 12.2218790054 seconds
+ 
+$ python -m timeit -n 5 -r 1 -s "import julia1_decorator" "julia1_decorator.calc_pure_python(draw_output=False, desired_width=1000, max_iterations=300)"
+
+Length of x: 1000
+Total elements: 1000000
+@timefn:calculate_z_serial_purepython took 12.6423819065 seconds
+Length of x: 1000
+Total elements: 1000000
+@timefn:calculate_z_serial_purepython took 12.2169589996 seconds
+Length of x: 1000
+Total elements: 1000000
+@timefn:calculate_z_serial_purepython took 12.2110390663 seconds
+Length of x: 1000
+Total elements: 1000000
+@timefn:calculate_z_serial_purepython took 12.2102611065 seconds
+Length of x: 1000
+Total elements: 1000000
+@timefn:calculate_z_serial_purepython took 12.2040967941 seconds
+Length of x: 1000
+Total elements: 1000000
+@timefn:calculate_z_serial_purepython took 12.2019679546 seconds
+5 loops, best of 1: 12.9 sec per loop
+
+
+line_profiler/
+$ kernprof.py -l -v julia1_lineprofiler.py
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$ kernprof.py -l -v julia1_lineprofiler.py
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 193.886585951 seconds
+Wrote profile results to julia1_lineprofiler.py.lprof
+Timer unit: 1e-06 s
+
+File: julia1_lineprofiler.py
+Function: calculate_z_serial_purepython at line 9
+Total time: 100.81 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+     9                                           @profile
+    10                                           def calculate_z_serial_purepython(maxiter, zs, cs):
+    11                                               """Calculate output list using Julia update rule"""
+    12         1         6870   6870.0      0.0      output = [0] * len(zs)
+    13   1000001       781959      0.8      0.8      for i in range(len(zs)):
+    14   1000000       767224      0.8      0.8          n = 0
+    15   1000000       843432      0.8      0.8          z = zs[i]
+    16   1000000       786013      0.8      0.8          c = cs[i]
+    17  34219980     36492596      1.1     36.2          while abs(z) < 2 and n < maxiter:
+    18  33219980     32869046      1.0     32.6              z = z * z + c
+    19  33219980     27371730      0.8     27.2              n += 1
+    20   1000000       890837      0.9      0.9          output[i] = n
+    21         1            4      4.0      0.0      return output
+
+File: julia1_lineprofiler.py
+Function: calc_pure_python at line 24
+Total time: 198.078 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    24                                           @profile
+    25                                           def calc_pure_python(draw_output, desired_width, max_iterations):
+    26                                               """Create a list of complex co-ordinates (zs) and complex parameters (cs), build Julia set and display"""
+    27         1            8      8.0      0.0      x_step = (float(x2 - x1) / float(desired_width))
+    28         1            3      3.0      0.0      y_step = (float(y1 - y2) / float(desired_width))
+    29         1            2      2.0      0.0      x = []
+    30         1            1      1.0      0.0      y = []
+    31         1            1      1.0      0.0      ycoord = y2
+    32      1001         1153      1.2      0.0      while ycoord > y1:
+    33      1000         1220      1.2      0.0          y.append(ycoord)
+    34      1000         1167      1.2      0.0          ycoord += y_step
+    35         1            1      1.0      0.0      xcoord = x1
+    36      1001         1143      1.1      0.0      while xcoord < x2:
+    37      1000         1206      1.2      0.0          x.append(xcoord)
+    38      1000         1161      1.2      0.0          xcoord += x_step
+    39                                               # set width and height to the generated pixel counts, rather than the
+    40                                               # pre-rounding desired width and height
+    41                                               # build a list of co-ordinates and the initial condition for each cell.
+    42                                               # Note that our initial condition is a constant and could easily be removed,
+    43                                               # we use it to simulate a real-world scenario with several inputs to our function
+    44         1            1      1.0      0.0      zs = []
+    45         1            1      1.0      0.0      cs = []
+    46      1001         1115      1.1      0.0      for ycoord in y:
+    47   1001000      1069216      1.1      0.5          for xcoord in x:
+    48   1000000      1534149      1.5      0.8              zs.append(complex(xcoord, ycoord))
+    49   1000000      1570434      1.6      0.8              cs.append(complex(c_real, c_imag))
+    50                                           
+    51         1           51     51.0      0.0      print "Length of x:", len(x)
+    52         1           11     11.0      0.0      print "Total elements:", len(zs)
+    53         1            6      6.0      0.0      start_time = time.time()
+    54         1    193886567 193886567.0     97.9      output = calculate_z_serial_purepython(max_iterations, zs, cs)
+    55         1            4      4.0      0.0      end_time = time.time()
+    56         1            3      3.0      0.0      secs = end_time - start_time
+    57         1           51     51.0      0.0      print calculate_z_serial_purepython.func_name + " took", secs, "seconds"
+    58                                           
+    59         1         9767   9767.0      0.0      assert sum(output) == 33219980  # this sum is expected for 1000^2 grid with 300 iterations
+
+
+
+$ kernprof.py -l -v julia1_lineprofiler2.py
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 372.426788092 seconds
+Wrote profile results to julia1_lineprofiler2.py.lprof
+Timer unit: 1e-06 s
+
+File: julia1_lineprofiler2.py
+Function: calculate_z_serial_purepython at line 9
+Total time: 184.739 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+     9                                           @profile
+    10                                           def calculate_z_serial_purepython(maxiter, zs, cs):
+    11                                               """Calculate output list using Julia update rule"""
+    12         1         6831   6831.0      0.0      output = [0] * len(zs)
+    13   1000001       828584      0.8      0.4      for i in range(len(zs)):
+    14   1000000       772684      0.8      0.4          n = 0
+    15   1000000       853742      0.9      0.5          z = zs[i]
+    16   1000000       802279      0.8      0.4          c = cs[i]
+    17  34219980     27577633      0.8     14.9          while True:
+    18  34219980     35073699      1.0     19.0              not_yet_escaped = abs(z) < 2
+    19  34219980     28600093      0.8     15.5              iterations_left = n < maxiter
+    20  34219980     27862335      0.8     15.1              if not_yet_escaped and iterations_left:
+    21  33219980     32402651      1.0     17.5                  z = z * z + c
+    22  33219980     28315762      0.9     15.3                  n += 1
+    23                                                       else:
+    24   1000000       787610      0.8      0.4                  break
+    25   1000000       855367      0.9      0.5          output[i] = n
+    26         1            5      5.0      0.0      return output
+
+File: julia1_lineprofiler2.py
+Function: calc_pure_python at line 29
+Total time: 376.572 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    29                                           @profile
+    30                                           def calc_pure_python(draw_output, desired_width, max_iterations):
+    31                                               """Create a list of complex co-ordinates (zs) and complex parameters (cs), build Julia set and display"""
+    32         1            8      8.0      0.0      x_step = (float(x2 - x1) / float(desired_width))
+    33         1            3      3.0      0.0      y_step = (float(y1 - y2) / float(desired_width))
+    34         1            1      1.0      0.0      x = []
+    35         1            1      1.0      0.0      y = []
+    36         1            2      2.0      0.0      ycoord = y2
+    37      1001         1119      1.1      0.0      while ycoord > y1:
+    38      1000         1209      1.2      0.0          y.append(ycoord)
+    39      1000         1189      1.2      0.0          ycoord += y_step
+    40         1            1      1.0      0.0      xcoord = x1
+    41      1001         1144      1.1      0.0      while xcoord < x2:
+    42      1000         1218      1.2      0.0          x.append(xcoord)
+    43      1000         1214      1.2      0.0          xcoord += x_step
+    44                                               # set width and height to the generated pixel counts, rather than the
+    45                                               # pre-rounding desired width and height
+    46                                               # build a list of co-ordinates and the initial condition for each cell.
+    47                                               # Note that our initial condition is a constant and could easily be removed,
+    48                                               # we use it to simulate a real-world scenario with several inputs to our function
+    49         1            1      1.0      0.0      zs = []
+    50         1            1      1.0      0.0      cs = []
+    51      1001         1126      1.1      0.0      for ycoord in y:
+    52   1001000      1074375      1.1      0.3          for xcoord in x:
+    53   1000000      1489548      1.5      0.4              zs.append(complex(xcoord, ycoord))
+    54   1000000      1562980      1.6      0.4              cs.append(complex(c_real, c_imag))
+    55                                           
+    56         1           54     54.0      0.0      print "Length of x:", len(x)
+    57         1           11     11.0      0.0      print "Total elements:", len(zs)
+    58         1            6      6.0      0.0      start_time = time.time()
+    59         1    372426766 372426766.0     98.9      output = calculate_z_serial_purepython(max_iterations, zs, cs)
+    60         1            3      3.0      0.0      end_time = time.time()
+    61         1            2      2.0      0.0      secs = end_time - start_time
+    62         1           52     52.0      0.0      print calculate_z_serial_purepython.func_name + " took", secs, "seconds"
+    63                                           
+    64         1         9757   9757.0      0.0      assert sum(output) == 33219980  # this sum is expected for 1000^2 grid with 300 iterations
+
+
+
+
+$ kernprof.py -l -v julia1_lineprofiler3.py
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 191.031326056 seconds
+Wrote profile results to julia1_lineprofiler3.py.lprof
+Timer unit: 1e-06 s
+
+File: julia1_lineprofiler3.py
+Function: calculate_z_serial_purepython at line 9
+Total time: 99.7097 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+     9                                           @profile
+    10                                           def calculate_z_serial_purepython(maxiter, zs, cs):
+    11                                               """Calculate output list using Julia update rule"""
+    12         1         6831   6831.0      0.0      output = [0] * len(zs)
+    13   1000001       798518      0.8      0.8      for i in range(len(zs)):
+    14   1000000       783329      0.8      0.8          n = 0
+    15   1000000       859748      0.9      0.9          z = zs[i]
+    16   1000000       782754      0.8      0.8          c = cs[i]
+    17  34219980     35787212      1.0     35.9          while n < maxiter and abs(z) < 2:
+    18  33219980     31950880      1.0     32.0              z = z * z + c
+    19  33219980     27854807      0.8     27.9              n += 1
+    20   1000000       885640      0.9      0.9          output[i] = n
+    21         1            5      5.0      0.0      return output
+
+File: julia1_lineprofiler3.py
+Function: calc_pure_python at line 24
+Total time: 195.218 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    24                                           @profile
+    25                                           def calc_pure_python(draw_output, desired_width, max_iterations):
+    26                                               """Create a list of complex co-ordinates (zs) and complex parameters (cs), build Julia set and display"""
+    27         1            8      8.0      0.0      x_step = (float(x2 - x1) / float(desired_width))
+    28         1            3      3.0      0.0      y_step = (float(y1 - y2) / float(desired_width))
+    29         1            2      2.0      0.0      x = []
+    30         1            1      1.0      0.0      y = []
+    31         1            1      1.0      0.0      ycoord = y2
+    32      1001         1112      1.1      0.0      while ycoord > y1:
+    33      1000         1165      1.2      0.0          y.append(ycoord)
+    34      1000         1128      1.1      0.0          ycoord += y_step
+    35         1            1      1.0      0.0      xcoord = x1
+    36      1001         1120      1.1      0.0      while xcoord < x2:
+    37      1000         1207      1.2      0.0          x.append(xcoord)
+    38      1000         1153      1.2      0.0          xcoord += x_step
+    39                                               # set width and height to the generated pixel counts, rather than the
+    40                                               # pre-rounding desired width and height
+    41                                               # build a list of co-ordinates and the initial condition for each cell.
+    42                                               # Note that our initial condition is a constant and could easily be removed,
+    43                                               # we use it to simulate a real-world scenario with several inputs to our function
+    44         1            1      1.0      0.0      zs = []
+    45         1            1      1.0      0.0      cs = []
+    46      1001         1142      1.1      0.0      for ycoord in y:
+    47   1001000      1073032      1.1      0.5          for xcoord in x:
+    48   1000000      1540425      1.5      0.8              zs.append(complex(xcoord, ycoord))
+    49   1000000      1555728      1.6      0.8              cs.append(complex(c_real, c_imag))
+    50                                           
+    51         1           51     51.0      0.0      print "Length of x:", len(x)
+    52         1           11     11.0      0.0      print "Total elements:", len(zs)
+    53         1            6      6.0      0.0      start_time = time.time()
+    54         1    191031307 191031307.0     97.9      output = calculate_z_serial_purepython(max_iterations, zs, cs)
+    55         1            4      4.0      0.0      end_time = time.time()
+    56         1            2      2.0      0.0      secs = end_time - start_time
+    57         1           58     58.0      0.0      print calculate_z_serial_purepython.func_name + " took", secs, "seconds"
+    58                                           
+    59         1         9799   9799.0      0.0      assert sum(output) == 33219980  # this sum is expected for 1000^2 grid with 300 iterations
+
+
+
+
+
+(envian)ian@ian-Latitude-E6420 ~/workspace/high_performance_python_book/high_performance_python_orielly/shared_github/raw_code/ian/01c/line_profiler $ ipython
+Python 2.7.5+ (default, Sep 19 2013, 13:48:49) 
+Type "copyright", "credits" or "license" for more information.
+
+IPython 1.1.0 -- An enhanced Interactive Python.
+?         -> Introduction and overview of IPython's features.
+%quickref -> Quick reference.
+help      -> Python's own help system.
+object?   -> Details about 'object', use 'object??' for extra details.
+
+In [1]: z = 0+0j
+
+In [2]: %timeit abs(z) < 2
+10000000 loops, best of 3: 162 ns per loop
+
+In [3]: n = 1
+
+In [4]: maxiter = 300
+
+In [5]: %timeit n < maxiter
+10000000 loops, best of 3: 76.9 ns per loop
+
+In [6]: %timeit n < 300
+10000000 loops, best of 3: 43.5 ns per loop  # no variable to dereference
+
+
+
+
+
+$ python -m memory_profiler julia1_memoryprofiler.py 
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 8231.45391703 seconds
+Filename: julia1_memoryprofiler.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    24   10.574 MiB -112.008 MiB   @profile
+    25                             def calc_pure_python(draw_output, desired_width, max_iterations):
+    26                                 """Create a list of complex co-ordinates (zs) and complex parameters (cs), build Julia set and display"""
+    27   10.574 MiB    0.000 MiB       x_step = (float(x2 - x1) / float(desired_width))
+    28   10.574 MiB    0.000 MiB       y_step = (float(y1 - y2) / float(desired_width))
+    29   10.574 MiB    0.000 MiB       x = []
+    30   10.574 MiB    0.000 MiB       y = []
+    31   10.574 MiB    0.000 MiB       ycoord = y2
+    32   10.574 MiB    0.000 MiB       while ycoord > y1:
+    33   10.574 MiB    0.000 MiB           y.append(ycoord)
+    34   10.574 MiB    0.000 MiB           ycoord += y_step
+    35   10.574 MiB    0.000 MiB       xcoord = x1
+    36   10.582 MiB    0.008 MiB       while xcoord < x2:
+    37   10.582 MiB    0.000 MiB           x.append(xcoord)
+    38   10.582 MiB    0.000 MiB           xcoord += x_step
+    39                                 # set width and height to the generated pixel counts, rather than the
+    40                                 # pre-rounding desired width and height
+    41                                 # build a list of co-ordinates and the initial condition for each cell.
+    42                                 # Note that our initial condition is a constant and could easily be removed,
+    43                                 # we use it to simulate a real-world scenario with several inputs to our function
+    44   10.582 MiB    0.000 MiB       zs = []
+    45   10.582 MiB    0.000 MiB       cs = []
+    46   89.926 MiB   79.344 MiB       for ycoord in y:
+    47   89.926 MiB    0.000 MiB           for xcoord in x:
+    48   89.926 MiB    0.000 MiB               zs.append(complex(xcoord, ycoord))
+    49   89.926 MiB    0.000 MiB               cs.append(complex(c_real, c_imag))
+    50                             
+    51   89.934 MiB    0.008 MiB       print "Length of x:", len(x)
+    52   89.934 MiB    0.000 MiB       print "Total elements:", len(zs)
+    53   89.934 MiB    0.000 MiB       start_time = time.time()
+    54                                 output = calculate_z_serial_purepython(max_iterations, zs, cs)
+    55  122.582 MiB   32.648 MiB       end_time = time.time()
+    56  122.582 MiB    0.000 MiB       secs = end_time - start_time
+    57  122.598 MiB    0.016 MiB       print calculate_z_serial_purepython.func_name + " took", secs, "seconds"
+    58                             
+    59  122.602 MiB    0.004 MiB       assert sum(output) == 33219980  # this sum is expected for 1000^2 grid with 300 iterations
+
+
+Filename: julia1_memoryprofiler.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+     9   89.934 MiB    0.000 MiB   @profile
+    10                             def calculate_z_serial_purepython(maxiter, zs, cs):
+    11                                 """Calculate output list using Julia update rule"""
+    12   97.566 MiB    7.633 MiB       output = [0] * len(zs)
+    13  130.215 MiB   32.648 MiB       for i in range(len(zs)):
+    14  130.215 MiB    0.000 MiB           n = 0
+    15  130.215 MiB    0.000 MiB           z = zs[i]
+    16  130.215 MiB    0.000 MiB           c = cs[i]
+    17  130.215 MiB    0.000 MiB           while n < maxiter and abs(z) < 2:
+    18  130.215 MiB    0.000 MiB               z = z * z + c
+    19  130.215 MiB    0.000 MiB               n += 1
+    20  130.215 MiB    0.000 MiB           output[i] = n
+    21  122.582 MiB   -7.633 MiB       return output
+
+
+
+
+
+
+
+# memory_profiling
+# diff I made to mprof
+def plot_action...
+    #ax.set_position([0.07, 0.1,
+    #                 0.55, 0.8])
+    #ax.legend(loc="upper left", bbox_to_anchor=(1.05, 1.))
+    #ax.legend(loc="best")  # best placement
+    leg = ax.legend(loc='best', fancybox=True)
+    leg.get_frame().set_alpha(0.5)  # make the legend partially transparent
+
+
+Note that julia1_xrange.py shows how we improve RAM usage if we switch to xrange! This is saved as
+julia_memoryprofiler2_xrange_mprof.png
+
+$ mprof run julia1_memoryprofiler.py 
+mprof: Sampling memory every 0.1s
+running as a Python program...
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 12.2572040558 seconds
+(envian)ian@ian-Latitude-E6420 ~/workspace/high_performance_python_book/high_performance_python_orielly/shared_github/raw_code/ian/01c/memory_profiler $ mprof plot
+# now save the image as raw_code/ian/01c/memory_profiler/julia_memoryprofiler_mprof.png fullscreen on Samsung monitor
+
+$ python -m memory_profiler julia1_memoryprofiler.py^C
+(envian)ian@ian-Latitude-E6420 ~/workspace/high_performance_python_book/high_performance_python_orielly/shared_github/raw_code/ian/01c/memory_profiler $ mprof run julia1_memoryprofiler.py  
+mprof: Sampling memory every 0.1s
+running as a Python program...
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 13.1964330673 seconds
+(envian)ian@ian-Latitude-E6420 ~/workspace/high_performance_python_book/high_performance_python_orielly/shared_github/raw_code/ian/01c/memory_profiler $ mprof plot
+(envian)ian@ian-Latitude-E6420 ~/workspace/high_performance_python_book/high_performance_python_orielly/shared_github/raw_code/ian/01c/memory_profiler $ mprof run julia1_memoryprofiler2.py 
+mprof: Sampling memory every 0.1s
+running as a Python program...
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 14.0152130127 seconds
+(envian)ian@ian-Latitude-E6420 ~/workspace/high_performance_python_book/high_performance_python_orielly/shared_github/raw_code/ian/01c/memory_profiler $ mprof plot
+
+(envian)ian@ian-Latitude-E6420 ~/workspace/high_performance_python_book/high_performance_python_orielly/shared_github/raw_code/ian/01c/memory_profiler $ ls -la
+total 204
+drwxr-xr-x 2 ian ian  4096 Jan  7 22:27 .
+drwxr-xr-x 9 ian ian  4096 Jan  7 22:29 ..
+-rw-r--r-- 1 ian ian  2454 Jan  7 22:26 julia1_memoryprofiler2.py
+-rw-r--r-- 1 ian ian  2266 Jan  7 22:26 julia1_memoryprofiler.py
+-rw-r--r-- 1 ian ian  4239 Oct 24 20:12 julia1_memoryprofiler_result.txt
+-rw-r--r-- 1 ian ian 86865 Oct 24 21:01 julia_memoryprofiler2_mprof.png
+-rw-r--r-- 1 ian ian 77533 Oct 24 20:09 julia_memory_profiler_mprof.png
+-rw-r--r-- 1 ian ian  4543 Jan  7 22:26 mprofile_20140107222639.dat
+-rw-r--r-- 1 ian ian  4927 Jan  7 22:27 mprofile_20140107222724.dat
+
+
+
+In [1]: %load_ext memory_profiler
+
+# BE AWARE THAT ALLOCATING IN IPYTHON MIGHT STORE THE TEMP RESULTS, POLLUTING THE ANSWERS?
+
+In [2]: %memit [0]*int(1e6)
+peak memory: 27.72 MiB, increment: 7.64 MiB
+In [3]: %memit [0]*int(1e8)
+peak memory: 790.64 MiB, increment: 762.91 MiB
+# list of 1 object will take 760MB approx
+In [2]: %memit [None] * int(1e8)
+peak memory: 782.97 MiB, increment: 762.90 MiB
+
+
+In [2]: %memit
+peak memory: 20.07 MiB, increment: 0.03 MiB
+In [3]: %memit [n for n in xrange(int(1e8))]
+peak memory: 3127.54 MiB, increment: 3107.45 MiB
+In [4]: %memit
+peak memory: 2364.82 MiB, increment: 0.00 MiB
+In [5]: %memit [n for n in xrange(int(1e8))]
+peak memory: 3127.52 MiB, increment: 762.71 MiB
+
+
+300 mil ints will use 2.4GB by themselves
+In [9]: n=0
+In [10]: import sys
+In [11]: sys.getsizeof(n)
+Out[11]: 24
+In [12]: 24*1e8
+Out[12]: 2400000000.0
+
+In [22]: %memit array.array('i', xrange(int(1e8)))
+peak memory: 402.22 MiB, increment: 380.09 MiB
+
+
+
+
+
+guppy/
+
+guppy $ python julia1_guppy.py 
+heapy after creating y and x lists of floats
+Partition of a set of 27293 objects. Total size = 3416032 bytes.
+ Index  Count   %     Size   % Cumulative  % Kind (class / dict of class)
+     0  10960  40  1050376  31   1050376  31 str
+     1   5768  21   465016  14   1515392  44 tuple
+     2    199   1   210856   6   1726248  51 dict of type
+     3     72   0   206784   6   1933032  57 dict of module
+     4   1592   6   203776   6   2136808  63 types.CodeType
+     5    313   1   201304   6   2338112  68 dict (no owner)
+     6   1557   6   186840   5   2524952  74 function
+     7    199   1   177008   5   2701960  79 type
+     8    124   0   135328   4   2837288  83 dict of class
+     9   1045   4    83600   2   2920888  86 __builtin__.wrapper_descriptor
+<91 more rows. Type e.g. '_.more' to view.>
+
+heapy after creating zs and cs using complex numbers
+Partition of a set of 2027301 objects. Total size = 83671256 bytes.
+ Index  Count   %     Size   % Cumulative  % Kind (class / dict of class)
+     0 2000000  99 64000000  76  64000000  76 complex
+     1    185   0 16295368  19  80295368  96 list
+     2  10962   1  1050504   1  81345872  97 str
+     3   5767   0   464952   1  81810824  98 tuple
+     4    199   0   210856   0  82021680  98 dict of type
+     5     72   0   206784   0  82228464  98 dict of module
+     6   1592   0   203776   0  82432240  99 types.CodeType
+     7    319   0   202984   0  82635224  99 dict (no owner)
+     8   1556   0   186720   0  82821944  99 function
+     9    199   0   177008   0  82998952  99 type
+<92 more rows. Type e.g. '_.more' to view.>
+
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 13.2436609268 seconds
+
+heapy after calling calculate_z_serial_purepython
+Partition of a set of 2127696 objects. Total size = 94207376 bytes.
+ Index  Count   %     Size   % Cumulative  % Kind (class / dict of class)
+     0 2000000  94 64000000  68  64000000  68 complex
+     1    186   0 24421904  26  88421904  94 list
+     2 100965   5  2423160   3  90845064  96 int
+     3  10962   1  1050504   1  91895568  98 str
+     4   5767   0   464952   0  92360520  98 tuple
+     5    199   0   210856   0  92571376  98 dict of type
+     6     72   0   206784   0  92778160  98 dict of module
+     7   1592   0   203776   0  92981936  99 types.CodeType
+     8    319   0   202984   0  93184920  99 dict (no owner)
+     9   1556   0   186720   0  93371640  99 function
+<92 more rows. Type e.g. '_.more' to view.>
+
+Total sum of elements (for validation): 33219980
+
+
+
+
+
+cpu_profiling/
+
+import dis
+In [5]: import julia1_nopil
+
+In [6]: dis.dis(julia1_nopil.calculate_z_serial_purepython)
+ 11           0 LOAD_CONST               1 (0)
+              3 BUILD_LIST               1
+              6 LOAD_GLOBAL              0 (len)
+              9 LOAD_FAST                1 (zs)
+             12 CALL_FUNCTION            1
+             15 BINARY_MULTIPLY     
+             16 STORE_FAST               3 (output)
+
+ 12          19 SETUP_LOOP             123 (to 145)
+             22 LOAD_GLOBAL              1 (range)
+             25 LOAD_GLOBAL              0 (len)
+             28 LOAD_FAST                1 (zs)
+             31 CALL_FUNCTION            1
+             34 CALL_FUNCTION            1
+             37 GET_ITER            
+        >>   38 FOR_ITER               103 (to 144)
+             41 STORE_FAST               4 (i)
+
+ 13          44 LOAD_CONST               1 (0)
+             47 STORE_FAST               5 (n)
+
+ 14          50 LOAD_FAST                1 (zs)
+             53 LOAD_FAST                4 (i)
+             56 BINARY_SUBSCR       
+             57 STORE_FAST               6 (z)
+
+ 15          60 LOAD_FAST                2 (cs)
+             63 LOAD_FAST                4 (i)
+             66 BINARY_SUBSCR       
+             67 STORE_FAST               7 (c)
+
+ 16          70 SETUP_LOOP              58 (to 131)
+        >>   73 LOAD_GLOBAL              2 (abs)
+             76 LOAD_FAST                6 (z)
+             79 CALL_FUNCTION            1
+             82 LOAD_CONST               2 (2)
+             85 COMPARE_OP               0 (<)
+             88 POP_JUMP_IF_FALSE      130
+             91 LOAD_FAST                5 (n)
+             94 LOAD_FAST                0 (maxiter)
+             97 COMPARE_OP               0 (<)
+            100 POP_JUMP_IF_FALSE      130
+
+ 17         103 LOAD_FAST                6 (z)
+            106 LOAD_FAST                6 (z)
+            109 BINARY_MULTIPLY     
+            110 LOAD_FAST                7 (c)
+            113 BINARY_ADD          
+            114 STORE_FAST               6 (z)
+
+ 18         117 LOAD_FAST                5 (n)
+            120 LOAD_CONST               3 (1)
+            123 INPLACE_ADD         
+            124 STORE_FAST               5 (n)
+            127 JUMP_ABSOLUTE           73
+        >>  130 POP_BLOCK           
+
+ 19     >>  131 LOAD_FAST                5 (n)
+            134 LOAD_FAST                3 (output)
+            137 LOAD_FAST                4 (i)
+            140 STORE_SUBSCR        
+            141 JUMP_ABSOLUTE           38
+        >>  144 POP_BLOCK           
+
+ 20     >>  145 LOAD_FAST                3 (output)
+            148 RETURN_VALUE        
+
+

@@ -1,0 +1,116 @@
+ $ free
+             total       used       free     shared    buffers     cached
+Mem:       8132268    8001832     130436          0        372    6361608
+-/+ buffers/cache:    1639852    6492416
+Swap:      8343548     281172    8062376
+$ ps -A -o pid,size,vsize,cmd | grep np_shared
+11268 10632 6338636 python np_shared.py
+
+$ pmap -x 11268 | grep s-
+00007f1953663000 6250000 6250000 6250000 rw-s-  zero (deleted)
+
+starting multiprocessing
+
+$ ps -A -o pid,size,vsize,cmd | grep np_shared
+11268 232464 6564988 python np_shared.py
+11288 11232 6343756 python np_shared.py
+11289 11228 6343752 python np_shared.py
+11290 11228 6343752 python np_shared.py
+11291 11228 6343752 python np_shared.py
+11308   320   9456 grep --colour=auto np_shared
+ian@ian-Latitude-E6420 ~/workspace/high_performance_python_book/high_performance_python_orielly/shared_github/raw_code/ian/08_multiprocessing/np_shared_example $ pmap -x 11268 | grep s-
+00007f1953663000 6250000 6250000 6250000 rw-s-  zero (deleted)
+00007f1ad58e7000       4       0       0 rw-s-  sem.KLh4Qw (deleted)
+00007f1ad58e8000       4       0       0 rw-s-  sem.S6WDzb (deleted)
+00007f1ad58e9000       4       0       0 rw-s-  sem.Yo4diQ (deleted)
+00007f1ad58ea000       4       0       0 rw-s-  sem.GENO0u (deleted)
+00007f1ad58ed000       4       0       0 rw-s-  sem.0zmqJ9 (deleted)
+ian@ian-Latitude-E6420 ~/workspace/high_performance_python_book/high_performance_python_orielly/shared_github/raw_code/ian/08_multiprocessing/np_shared_example $ pmap -x 11288 | grep s-
+00007f1953663000 6250000 1562512 1562512 rw-s-  zero (deleted)
+00007f1ad58e7000       4       4       4 rw-s-  sem.KLh4Qw (deleted)
+00007f1ad58e8000       4       0       0 rw-s-  sem.S6WDzb (deleted)
+00007f1ad58e9000       4       0       0 rw-s-  sem.Yo4diQ (deleted)
+00007f1ad58ea000       4       4       4 rw-s-  sem.GENO0u (deleted)
+00007f1ad58ed000       4       0       0 rw-s-  sem.0zmqJ9 (deleted)
+$ pmap -x 11289 | grep s-
+00007f1953663000 6250000 1562512 1562512 rw-s-  zero (deleted)
+00007f1ad58e7000       4       4       4 rw-s-  sem.KLh4Qw (deleted)
+00007f1ad58e8000       4       0       0 rw-s-  sem.S6WDzb (deleted)
+00007f1ad58e9000       4       0       0 rw-s-  sem.Yo4diQ (deleted)
+00007f1ad58ea000       4       4       4 rw-s-  sem.GENO0u (deleted)
+00007f1ad58ed000       4       0       0 rw-s-  sem.0zmqJ9 (deleted)
+
+$ free
+             total       used       free     shared    buffers     cached
+Mem:       8132268    8007856     124412          0       1252    6366584
+-/+ buffers/cache:    1640020    6492248
+Swap:      8343548     356060    7987488
+
+end of multiprocessing
+
+
+$ python np_shared.py 
+Created shared array with 6,400,000,000 nbytes
+Shared array id is 20255664 in PID 11268
+Starting with an array of 0 values:
+[[ 0.  0.  0. ...,  0.  0.  0.]
+ [ 0.  0.  0. ...,  0.  0.  0.]
+ [ 0.  0.  0. ...,  0.  0.  0.]
+ ..., 
+ [ 0.  0.  0. ...,  0.  0.  0.]
+ [ 0.  0.  0. ...,  0.  0.  0.]
+ [ 0.  0.  0. ...,  0.  0.  0.]]
+
+Original array filled with value 42:
+[[ 42.  42.  42. ...,  42.  42.  42.]
+ [ 42.  42.  42. ...,  42.  42.  42.]
+ [ 42.  42.  42. ...,  42.  42.  42.]
+ ..., 
+ [ 42.  42.  42. ...,  42.  42.  42.]
+ [ 42.  42.  42. ...,  42.  42.  42.]
+ [ 42.  42.  42. ...,  42.  42.  42.]]
+Press a key to start workers using multiprocessing...
+
+ worker_fn: with idx 0
+  id of shared_array is 20255664 in PID 11288
+ worker_fn: with idx 2000
+  id of shared_array is 20255664 in PID 11291
+ worker_fn: with idx 1000
+  id of shared_array is 20255664 in PID 11289
+ worker_fn: with idx 4000
+  id of shared_array is 20255664 in PID 11291
+ worker_fn: with idx 3000
+  id of shared_array is 20255664 in PID 11289
+ worker_fn: with idx 5000
+  id of shared_array is 20255664 in PID 11290
+ worker_fn: with idx 7000
+  id of shared_array is 20255664 in PID 11288
+ worker_fn: with idx 6000
+  id of shared_array is 20255664 in PID 11289
+ worker_fn: with idx 9000
+  id of shared_array is 20255664 in PID 11289
+ worker_fn: with idx 8000
+  id of shared_array is 20255664 in PID 11290
+
+The default value has been over-written with worker_fn's result:
+[[ 11288.  11288.  11288. ...,  11288.  11288.  11288.]
+ [ 11288.  11288.  11288. ...,  11288.  11288.  11288.]
+ [ 11288.  11288.  11288. ...,  11288.  11288.  11288.]
+ ..., 
+ [ 11288.  11288.  11288. ...,  11288.  11288.  11288.]
+ [ 11288.  11288.  11288. ...,  11288.  11288.  11288.]
+ [ 11288.  11288.  11288. ...,  11288.  11288.  11288.]]
+
+Verification - extracting unique values from 800,000,000 items
+in the numpy array (this might be slow)...
+Unique values in shared_array:
++---------+-----------+
+|   PID   |   Count   |
++---------+-----------+
+| 11288.0 | 200000000 |
+| 11289.0 | 200000000 |
+| 11290.0 | 200000000 |
+| 11291.0 | 200000000 |
++---------+-----------+
+Press a key to exit...
+

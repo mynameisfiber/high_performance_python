@@ -1,0 +1,72 @@
+(env)ian@ian-Latitude-E6420 ~/workspace/virtualenvs/high_performance_python_orielly/new_code/python $ python -m memory_profiler julia1_memoryprofiler.py 
+Length of x: 1000
+Total elements: 1000000
+calculate_z_serial_purepython took 5893.41046405 seconds
+Total sum of elements (for validation): 266780020
+Filename: julia1_memoryprofiler.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+    24   10.203 MiB -127.797 MiB   @profile
+    25                             def calc_pure_python(draw_output, desired_width, max_iterations):
+    26                                 """Create a list of complex co-ordinates (zs) and complex parameters (cs), build Julia set and display"""
+    27   10.211 MiB    0.008 MiB       x_step = (float(x2 - x1) / float(desired_width))
+    28   10.211 MiB    0.000 MiB       y_step = (float(y1 - y2) / float(desired_width))
+    29   10.211 MiB    0.000 MiB       x = []
+    30   10.211 MiB    0.000 MiB       y = []
+    31   10.211 MiB    0.000 MiB       ycoord = y2
+    32   10.293 MiB    0.082 MiB       while ycoord > y1:
+    33   10.293 MiB    0.000 MiB           y.append(ycoord)
+    34   10.293 MiB    0.000 MiB           ycoord += y_step
+    35   10.293 MiB    0.000 MiB       xcoord = x1
+    36   10.301 MiB    0.008 MiB       while xcoord < x2:
+    37   10.301 MiB    0.000 MiB           x.append(xcoord)
+    38   10.301 MiB    0.000 MiB           xcoord += x_step
+    39                                 # set width and height to the generated pixel counts, rather than the
+    40                                 # pre-rounding desired width and height
+    41                                 # build a list of co-ordinates and the initial condition for each cell.
+    42                                 # Note that our initial condition is a constant and could easily be removed,
+    43                                 # we use it to simulate a real-world scenario with several inputs to our function
+    44   10.301 MiB    0.000 MiB       zs = []
+    45   10.301 MiB    0.000 MiB       cs = []
+    46   89.523 MiB   79.223 MiB       for ycoord in y:
+    47   89.523 MiB    0.000 MiB           for xcoord in x:
+    48   89.523 MiB    0.000 MiB               zs.append(complex(xcoord, ycoord))
+    49   89.523 MiB    0.000 MiB               cs.append(complex(c_real, c_imag))
+    50                             
+    51   89.531 MiB    0.008 MiB       print "Length of x:", len(x)
+    52   89.531 MiB    0.000 MiB       print "Total elements:", len(zs)
+    53   89.531 MiB    0.000 MiB       start_time = time.time()
+    54                                 output = calculate_z_serial_purepython(max_iterations, zs, cs)
+    55  138.000 MiB   48.469 MiB       end_time = time.time()
+    56  138.000 MiB    0.000 MiB       secs = end_time - start_time
+    57  138.004 MiB    0.004 MiB       print calculate_z_serial_purepython.func_name + " took", secs, "seconds"
+    58                             
+    59  138.008 MiB    0.004 MiB       validation_sum = sum(output)
+    60  138.008 MiB    0.000 MiB       print "Total sum of elements (for validation):", validation_sum
+
+
+Filename: julia1_memoryprofiler.py
+
+Line #    Mem usage    Increment   Line Contents
+================================================
+     9   89.531 MiB    0.000 MiB   @profile
+    10                             def calculate_z_serial_purepython(maxiter, zs, cs):
+    11                                 """Calculate output list using Julia update rule"""
+    12   97.164 MiB    7.633 MiB       output = [0] * len(zs)
+    13  145.633 MiB   48.469 MiB       for i in range(len(zs)):
+    14  145.633 MiB    0.000 MiB           n = maxiter
+    15  145.633 MiB    0.000 MiB           z = zs[i]
+    16  145.633 MiB    0.000 MiB           c = cs[i]
+    17  145.633 MiB    0.000 MiB           while n > 0 and abs(z) < 2:
+    18  145.633 MiB    0.000 MiB               z = z * z + c
+    19  145.633 MiB    0.000 MiB               n -= 1
+    20  145.633 MiB    0.000 MiB           output[i] = n
+    21  138.000 MiB   -7.633 MiB       return output
+
+
+
+
+mprof run julia1_memoryprofiler.py
+mprof plot  # visualises the most recent plot
+this generates a plot over time: memory_profiler_mprof.png

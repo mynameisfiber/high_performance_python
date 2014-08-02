@@ -1,0 +1,193 @@
+np_shared.py:
+383 383 383 167*4
+they al have same shared id
+
+ ..., 
+ [ 42.  42.  42. ...,  42.  42.  42.]
+ [ 42.  42.  42. ...,  42.  42.  42.]
+ [ 42.  42.  42. ...,  42.  42.  42.]]
+Press a key to start workers using multiprocessing...	
+
+ worker_fn: with idx 0
+  id of shared_array is 30712800 in PID 3126
+ worker_fn: with idx 2000
+  id of shared_array is 30712800 in PID 3129
+ worker_fn: with idx 1000
+  id of shared_array is 30712800 in PID 3127
+ worker_fn: with idx 3000
+  id of shared_array is 30712800 in PID 3129
+ worker_fn: with idx 5000
+  id of shared_array is 30712800 in PID 3129
+ worker_fn: with idx 4000
+  id of shared_array is 30712800 in PID 3126
+ worker_fn: with idx 6000
+  id of shared_array is 30712800 in PID 3127
+ worker_fn: with idx 7000
+  id of shared_array is 30712800 in PID 3127
+ worker_fn: with idx 9000
+  id of shared_array is 30712800 in PID 3129
+ worker_fn: with idx 8000
+  id of shared_array is 30712800 in PID 3126
+
+
+
+np_shared_passinbytes.py
+by passing the shared array as default param rather than the nparray
+383 * 3 167*4
+they have different ids
+
+Created shared array with 80,000,000 nbytes
+Shared array id is 23332416 in PID 3112
+Starting with an array of 0 values:
+[[ 0.  0.  0. ...,  0.  0.  0.]
+ [ 0.  0.  0. ...,  0.  0.  0.]
+ [ 0.  0.  0. ...,  0.  0.  0.]
+ ..., 
+ [ 0.  0.  0. ...,  0.  0.  0.]
+ [ 0.  0.  0. ...,  0.  0.  0.]
+ [ 0.  0.  0. ...,  0.  0.  0.]]
+
+Original array filled with value 42:
+[[ 42.  42.  42. ...,  42.  42.  42.]
+ [ 42.  42.  42. ...,  42.  42.  42.]
+ [ 42.  42.  42. ...,  42.  42.  42.]
+ ..., 
+ [ 42.  42.  42. ...,  42.  42.  42.]
+ [ 42.  42.  42. ...,  42.  42.  42.]
+ [ 42.  42.  42. ...,  42.  42.  42.]]
+Press a key to start workers using multiprocessing...
+
+ worker_fn: with idx 0
+  id of shared_array is 24931152 in PID 3113
+ worker_fn: with idx 2000
+  id of shared_array is 24407472 in PID 3115
+ worker_fn: with idx 1000
+  id of shared_array is 24407472 in PID 3114
+ worker_fn: with idx 3000
+  id of shared_array is 24407472 in PID 3114
+ worker_fn: with idx 5000
+  id of shared_array is 24717344 in PID 3114
+ worker_fn: with idx 4000
+  id of shared_array is 24743680 in PID 3113
+ worker_fn: with idx 6000
+  id of shared_array is 24743680 in PID 3116
+ worker_fn: with idx 7000
+  id of shared_array is 24754896 in PID 3113
+ worker_fn: with idx 9000
+  id of shared_array is 24407472 in PID 3114
+ worker_fn: with idx 8000
+  id of shared_array is 24743680 in PID 3116
+
+
+
+np_shared_passinbytes2.py
+pass in shared array as a (non default) param - failsException in thread Thread-2:
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/threading.py", line 808, in __bootstrap_inner
+    self.run()
+  File "/usr/lib/python2.7/threading.py", line 761, in run
+    self.__target(*self.__args, **self.__kwargs)
+  File "/usr/lib/python2.7/multiprocessing/pool.py", line 342, in _handle_tasks
+    put(task)
+  File "/usr/lib/python2.7/multiprocessing/sharedctypes.py", line 213, in __reduce__
+    assert_spawning(self)
+  File "/usr/lib/python2.7/multiprocessing/forking.py", line 52, in assert_spawning
+    ' through inheritance' % type(self).__name__
+RuntimeError: SynchronizedArray objects should only be shared between processes through inheritance
+
+
+
+np_shared_passinnparray.py
+passes in copies of entire array
+385*3, 284*4
+then crashes
+ worker_fn: with idx 0
+  id of shared_array is 38056832 in PID 3185
+ worker_fn: with idx 1000
+  id of shared_array is 37657088 in PID 3186
+ worker_fn: with idx 2000
+  id of shared_array is 37960032 in PID 3188
+ worker_fn: with idx 3000
+  id of shared_array is 37657088 in PID 3185
+...
+Verification - extracting unique values from 10,000,000 items
+in the numpy array (this might be slow)...
+Unique values in shared_array:
++------+----------+
+| PID  |  Count   |
++------+----------+
+| 42.0 | 10000000 |
++------+----------+
+Traceback (most recent call last):
+  File "np_shared_passinnparray.py", line 101, in <module>
+    assert DEFAULT_VALUE not in counter.keys()
+AssertionError
+
+
+
+np_shared_global_bytes.py
+works but may be using more RAM than necessary?
+460*3 and 244*4
+import np_shared_global_bytes 
+is used and np_shared_global_bytes.base_array is referenced, this seems to work but is a bit weird
+
+
+np_shared_global_bytes2.py
+work using same ram as original 
+383*3, 167*4
+
+ worker_fn: with idx 0
+  id of shared_array is 37161184 in PID 5811
+ worker_fn: with idx 2000
+  id of shared_array is 37161184 in PID 5814
+ worker_fn: with idx 1000
+  id of shared_array is 37161184 in PID 5812
+ worker_fn: with idx 3000
+  id of shared_array is 37161184 in PID 5813
+ worker_fn: with idx 5000
+  id of shared_array is 38619856 in PID 5813
+ worker_fn: with idx 4000
+  id of shared_array is 37161184 in PID 5812
+
+def init_in_new_process(sab):
+    # make a global variable in the new process
+    global base_array
+    base_array = sab
+
+
+with 60k lines
+4594*3 and 1157*4 RAM
+
+
+np_shared_global_bytes3.py
+DOES THE RIGHT JOB IN A MORE EXPLAINABLE WAY!
+
+np_shared_global_bytes5.py
+WORKS FINE TOO and doesn't need the init!
+
+np_shared_global_bytes6.py
+does not make a shared block and so a read-only copy is passed, so the shared result is not returned. each process modifies and therefore copies the data and the copies aren't returned to the parent.
+
+np_shared_global_bytes7.py
+SIZE_A, SIZE_B = 10000, 1000
+    #shared_array_base = multiprocessing.Array(ctypes.c_double, NBR_ITEMS_IN_ARRAY)
+    shared_array_base = multiprocessing.RawArray(ctypes.c_double, NBR_ITEMS_IN_ARRAY)
+works
+  id of local_nparray_in_process is 61413808 in PID 2553
+Took: 0.0277659893036
+Took: 0.0303769111633
+old way took 0.028 anyhow
+
+SIZE_A, SIZE_B = 10000, 40000  # 3.2GB (3.2e9 bytes)  # GOOD DEMO
+old way: 0.378099918365
+new way: 0.37
+
+
+using 2 variants, I can do
+SIZE_A, SIZE_B = 10000, 40000  # 3.2GB (3.2e9 bytes)  # GOOD DEMO
+with a np_shared_rnd_serial.py serial call to random - 7.3s
+np_shared_rnd_parallel.py - 2.1s
+
+SIZE_A, SIZE_B = 10000, 80000  # 6.2GB - starts to use swap via htop
+np_shared_rnd_serial.py takes 14.9s
+np_shared_rnd_parallel.py takes 4.2

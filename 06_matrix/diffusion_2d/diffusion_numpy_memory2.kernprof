@@ -1,0 +1,30 @@
+Wrote profile results to diffusion_numpy_memory2.py.lprof
+Timer unit: 1e-06 s
+
+File: diffusion_numpy_memory2.py
+Function: laplacian at line 22
+Total time: 1.05837 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    22                                           @profile
+    23                                           def laplacian(grid, out):
+    24       500       160460    320.9     15.2      np.copyto(out, grid)
+    25       500        84102    168.2      7.9      np.multiply(out, -4.0, out)
+    26       500        92041    184.1      8.7      roll_add(grid, +1, 0, out)
+    27       500        89667    179.3      8.5      roll_add(grid, -1, 0, out)
+    28       500       315460    630.9     29.8      roll_add(grid, +1, 1, out)
+    29       500       316635    633.3     29.9      roll_add(grid, -1, 1, out)
+
+File: diffusion_numpy_memory2.py
+Function: evolve at line 31
+Total time: 1.20642 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    31                                           @profile
+    32                                           def evolve(grid, dt, out, D=1):
+    33       500      1063045   2126.1     88.1      laplacian(grid, out)
+    34       500        60336    120.7      5.0      np.multiply(out, D*dt, out)
+    35       500        83044    166.1      6.9      np.add(out, grid, out)
+

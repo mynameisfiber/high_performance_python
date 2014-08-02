@@ -1,0 +1,263 @@
+
+Monte Carlo pi estimate diagram
+
+08_multiprocessing/pi_estimation/pi_monte_carlo_diagram/
+In [61]: %run pi_plot_monte_carlo_example.py
+In [62]: plt.tight_layout()
+In [63]: plt.savefig("08_pi_plot_monte_carlo_example.png")
+cp 08_pi_plot_monte_carlo_example.png ../../../../../figures
+
+08_multiprocessing/pi_estimation/pi_processes_parallel/
+Run pi_numpy_serial.py to confirm single threaded serial numpy execution with 1e8 estimates
+Run pi_numpy_serial_blocks.py to do the same in blocks on a total of 1e8 estimates
+Modify pi_numpy_parallel_worker.py to use threads (dummy) for 1, 2, 4, 8 Threads
+and modify it again (processes) for 1, 2, 4, 8 Processes
+Collect results, added them to pi_graph_speed_tests.py
+$ python pi_graph_speed_tests.py  # generate new plot (do it in IPython)
+cp 08_pi_numpy_graph_speed_tests_threaded_processes.png ../../../../../notebooks/figures/
+
+08_multiprocessing/pi_estimation/pi_lists_parallel/
+Run pi_lists_parallel.py using threads or processes for 1, 2, 4, 8 workers
+Collection results into pi_graph_speed_tests.py
+%run pi_graph_speed_tests.py
+cp 08_pi_lists_graph_speed_tests_threaded_processes.png ../../../../../notebooks/figures/
+
+Use profile_cpu_usage.py to create imshow plots for both lists and numpy variants using the commented out sections.
+
+python profile_cpu_usage.py --processes --nbr_processes=8 --build
+-> 08_pi_lists_parallel_py_8_processes.png 08_pi_lists_parallel_py_8_processes.pickle
+python profile_cpu_usage.py --processes --nbr_processes=8  # to generate the images
+python profile_cpu_usage.py --processes --nbr_processes=4 --build
+-> 08_pi_lists_parallel_py_8_processes.png 08_pi_lists_parallel_py_4_processes.pickle
+python profile_cpu_usage.py --processes --nbr_processes=2 --build
+-> 08_pi_lists_parallel_py_8_processes.png 08_pi_lists_parallel_py_2_processes.pickle
+python profile_cpu_usage.py --processes --nbr_processes=1 --build
+-> 08_pi_lists_parallel_py_8_processes.png 08_pi_lists_parallel_py_1_processes.pickle
+python profile_cpu_usage.py --nbr_processes=4 --build
+cp 08_*.png ../../../../../notebooks/figures/
+
+--------------------------------
+
+Finding Primes
+
+raw_code/ian/08_multiprocessing/prime_generation
+primes.py
+code example to calculate a prime
+D takes approx 6.8s
+E takes approx 54.6s
+
+raw_code/ian/08_multiprocessing/prime_generation/diagrams
+python primes_timed_makes_graph.py --create_data
+generates
+python primes_timed_makes_graph.py  # plot the graph black line on blue dots showing cost to test primes vs non-primes, increasing over time
+08_prime_time_cost_1e4to1e6.png  (takes about 1 minute)
+cp 08_prime_time_cost_1e4to1e6.png ../../../../../notebooks/figures/
+
+prime_generation $ python primes_pool.py
+E takes approx 13.9s
+
+diagrams/
+python primes_pool_plot_chunksizetimes.py 
+%run primes_pool_plot_chunksizetimes.py 1 --create_data
+python primes_pool_plot_chunksizetimes.py 1  # will generate the plot
+-> primes_pool_plot_chunksizetimes_1to50000_plottype1.png  # long range
+%run primes_pool_plot_chunksizetimes.py 2 --create_data
+python primes_pool_plot_chunksizetimes.py 2  # will generate the plot
+-> primes_pool_plot_chunksizetimes_1to50000_plottype2.png  # short range
+
+%run primes_pool_plot_chunksizetimes.py 1 --create_data --shuffle
+python primes_pool_plot_chunksizetimes.py 1 --shuffle # will generate the plot
+-> primes_pool_plot_chunksizetimes_1to50000_shuffled_plottype1.png
+
+
+%run primes_pool_plot_chunksizetimes_by_nbrchunks.py --create_data
+python primes_pool_plot_chunksizetimes_by_nbrchunks.py 
+->primes_pool_plot_chunksizetimes_by_nbrchunks_sawtoothpattern.png
+
+%run primes_pool_plot_chunksizetimes_by_nbrchunks.py --create_data --shuffle
+python primes_pool_plot_chunksizetimes_by_nbrchunks.py --shuffle
+->primes_pool_plot_chunksizetimes_by_nbrchunks_sawtoothpattern_shuffled.png
+
+
+cp 08_prime*.png ../../../../../notebooks/figures/
+
+
+08_multiprocessing/prime_generation
+%run plot_serial_vs_queue_times.py
+-> multiprocessing_serial_vs_queue_times.png
+cp multiprocessing_serial_vs_queue_times.png ../../../../notebooks/figures/
+
+--------------------------------
+Validating Primes
+
+08_multiprocessing/prime_validation/diagrams
+%run create_count_of_factors_for_nonprimes.py --create_data 
+-> primes_validation_count_of_factors.pickle
+%run create_count_of_factors_for_nonprimes.py
+-> primes_validation_count_of_factors.png
+cp primes_validation_count_of_factors.png ../../../../../notebooks/figures
+
+08_multiprocessing/prime_validation/
+%run plot_prime_validation_times.py --slow
+-> multiprocessing_plot_prime_validation_times_slower_results.png
+%run plot_prime_validation_times.py
+-> multiprocessing_plot_prime_validation_times_faster_results.png
+cp multiprocessing_plot_prime_validation_times_*.png ../../../../notebooks/figures/
+
+raw_code/ian/08_multiprocessing/prime_validation
+
+repeated 20 times internally
+
+$ python primes.py
+trivial non-prime        (112272535095295)  0.000002s
+expensive non-prime18_1  (100109100129100369)  3.535195s
+expensive non-prime18_2  (100109100129101027)  6.401186s
+prime18_1                (100109100129100151)  11.789789s
+prime18_2                (100109100129162907)  11.776730s
+
+
+$ python primes_pool_per_number1.py 
+Testing with 4 processes
+trivial non-prime   (112272535095295)  0.105107s
+expensive non-prime18_1 (100109100129100369)  2.941526s
+expensive non-prime18_2 (100109100129101027)  2.941421s
+prime18_1           (100109100129100151)  2.982033s
+prime18_2           (100109100129162907)  3.005362s
+
+ $ python primes_pool_per_number2.py
+$ python primes_pool_per_number2.py 
+Testing with 4 processes
+trivial non-prime        (112272535095295)  0.000002s
+expensive non-prime18_1  (100109100129100369)  2.956475s
+expensive non-prime18_2  (100109100129101027)  2.944949s
+prime18_1                (100109100129100151)  2.999555s
+prime18_2                (100109100129162907)  3.019998s
+
+
+$ python primes_pool_per_number_redis.py 
+CHECK_EVERY 1000
+Testing with 4 processes
+trivial non-prime   (112272535095295)  0.000102s
+expensive non-prime18_1 (100109100129100369)  1.473115s
+expensive non-prime18_2 (100109100129101027)  1.211585s
+prime18_1           (100109100129100151)  7.920857s
+prime18_2           (100109100129162907)  8.073539s
+
+
+$ python primes_pool_per_number_manager.py 
+CHECK_EVERY 1000
+Testing with 4 processes
+trivial non-prime   (112272535095295)  0.000036s
+expensive non-prime18_1 (100109100129100369)  1.324719s
+expensive non-prime18_2 (100109100129101027)  1.094716s
+prime18_1           (100109100129100151)  6.506720s
+prime18_2           (100109100129162907)  6.507105s
+
+$ python primes_pool_per_number_value.py 
+CHECK_EVERY 1000
+Testing with 4 processes
+trivial non-prime   (112272535095295)  0.000002s
+expensive non-prime18_1 (100109100129100369)  0.948078s
+expensive non-prime18_2 (100109100129101027)  0.784357s
+prime18_1           (100109100129100151)  4.697032s
+prime18_2           (100109100129162907)  4.689326s
+
+$ python primes_pool_per_number_mmap.py 
+CHECK_EVERY 1000
+Testing with 4 processes
+trivial non-prime   (112272535095295)  0.000003s
+expensive non-prime18_1 (100109100129100369)  0.929603s
+expensive non-prime18_2 (100109100129101027)  0.770243s
+prime18_1           (100109100129100151)  4.592328s
+prime18_2           (100109100129162907)  4.590345s
+
+
+$ python primes_pool_per_number_mmap3.py 
+CHECK_EVERY 1000
+Testing with 4 processes
+trivial non-prime   (112272535095295)  0.000003s
+expensive non-prime18_1 (100109100129100369)  0.615734s
+expensive non-prime18_2 (100109100129101027)  0.509868s
+prime18_1           (100109100129100151)  3.035736s
+prime18_2           (100109100129162907)  3.045538s
+
+--------------------------------
+
+raw_code/ian/08_multiprocessing/np_shared_example
+cp 80000rows.png ../../../../notebooks/figures/
+
+run np_shared.py and use the notes to generate 80000rows.txt for diagnosis
+
+
+
+--------------------
+raw_code/ian/08_multiprocessing/locking
+ex1_nolock.py  no value so they all might start counting from 0, then overwrite each other
+
+$ python ex1_nolock.py 
+Starting 1 process(es) to count to 1000
+File is empty, starting to count from 0, error: invalid literal for int() with base 10: ''
+Expecting to see a count of 1000
+count.txt contains:
+1000
+
+Starting 4 process(es) to count to 4000
+error: invalid literal for int() with base 10: ''
+File is empty, starting to count from 0, 
+error: invalid literal for int() with base 10: '1\n7\n'
+# many errors like these
+Expecting to see a count of 4000
+count.txt contains:
+629
+$ python -m timeit -s "import ex1_nolock" "ex1_nolock.run_workers()"
+10 loops, best of 3: 125 msec per loop
+
+
+$ python ex1_lock.py 
+Starting 1 process(es) to count to 1000
+File is empty, starting to count from 0, 
+error: invalid literal for int() with base 10: ''
+Expecting to see a count of 1000
+count.txt contains:
+1000
+
+$ python ex1_lock.py 
+Starting 4 process(es) to count to 4000
+File is empty, starting to count from 0, 
+error: invalid literal for int() with base 10: ''
+Expecting to see a count of 4000
+count.txt contains:
+4000
+
+$ python -m timeit -s "import ex1_lock" "ex1_lock.run_workers()"
+10 loops, best of 3: 401 msec per loop
+
+
+$ python ex2_nolock.py 
+Expecting to see a count of 4000
+We have counted to 2340
+$ python -m timeit -s "import ex2_nolock" "ex2_nolock.run_workers()"
+100 loops, best of 3: 12.6 msec per loop
+
+# lock on the update but this isn't atomic
+$ python ex2_lock.py 
+Expecting to see a count of 4000
+We have counted to 4000
+python -m timeit -s "import ex2_lock" "ex2_lock.run_workers()"
+10 loops, best of 3: 22.2 msec per loop
+
+# RawValue hsa no lock on it
+$ python ex2_lock_rawvalue.py
+Expecting to see a count of 4000
+We have counted to 4000
+$ python -m timeit -s "import ex2_lock_rawvalue" "ex2_lock_rawvalue.run_workers()"
+100 loops, best of 3: 12.6 msec per loop
+
+
+$ python ex3_redis.py 
+Expecting to see a count of 4000
+We have counted to 4000
+
+$ python -m timeit -s "import ex3_redis" "ex3_redis.run_workers()"
+10 loops, best of 3: 84.7 msec per loop
+

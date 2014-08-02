@@ -1,0 +1,120 @@
+3.2GB demo
+
+$ free
+             total       used       free     shared    buffers     cached
+Mem:       8132268    4910580    3221688          0     402068    2279616
+-/+ buffers/cache:    2228896    5903372
+Swap:      8343548        296    8343252
+
+
+$ ps -A -o pid,size,vsize,cmd | grep np_shared
+10924 10632 3213636 python np_shared.py
+
+
+$ pmap -x 10924
+10924:   python np_shared.py
+Address           Kbytes     RSS   Dirty Mode   Mapping
+0000000000400000    2792    1628       0 r-x--  python
+00000000008b9000       4       4       4 r----  python
+00000000008ba000     468     340     272 rw---  python
+000000000092f000      72      68      68 rw---    [ anon ]
+0000000000f54000    9272    9124    9124 rw---    [ anon ]
+00007f7a3697c000 3125000 3125000 3125000 rw-s-  zero (deleted)
+
+# free displays kB free by default
+ $ free
+             total       used       free     shared    buffers     cached
+Mem:       8132268    7836928     295340          0     402248    5143152
+-/+ buffers/cache:    2291528    5840740
+Swap:      8343548       1556    8341992
+
+now we can start multiprocessing
+
+$ ps -A -o pid,size,vsize,cmd | grep np_shared
+10924 232464 3439988 python np_shared.py
+11034 11232 3218756 python np_shared.py
+11035 11228 3218752 python np_shared.py
+11036 11228 3218752 python np_shared.py
+11037 11228 3218752 python np_shared.py
+
+$ pmap -x 10924 | grep s-
+00007f7a3697c000 3125000 3125000 3125000 rw-s-  zero (deleted)
+$ pmap -x 11034 | grep s-
+00007f7a3697c000 3125000  781264  781264 rw-s-  zero (deleted)
+$ pmap -x 11035 | grep s-
+00007f7a3697c000 3125000  781264  781264 rw-s-  zero (deleted)
+
+$ free
+             total       used       free     shared    buffers     cached
+Mem:       8132268    7849748     282520          0     402344    5143212
+-/+ buffers/cache:    2304192    5828076
+Swap:      8343548       1556    8341992
+
+
+
+run for the 3.2GB example:
+$ python np_shared.py 
+Created shared array with 3,200,000,000 nbytes
+Shared array id is 24904624 in PID 10924
+Starting with an array of 0 values:
+[[ 0.  0.  0. ...,  0.  0.  0.]
+ [ 0.  0.  0. ...,  0.  0.  0.]
+ [ 0.  0.  0. ...,  0.  0.  0.]
+ ..., 
+ [ 0.  0.  0. ...,  0.  0.  0.]
+ [ 0.  0.  0. ...,  0.  0.  0.]
+ [ 0.  0.  0. ...,  0.  0.  0.]]
+
+Original array filled with value 42:
+[[ 42.  42.  42. ...,  42.  42.  42.]
+ [ 42.  42.  42. ...,  42.  42.  42.]
+ [ 42.  42.  42. ...,  42.  42.  42.]
+ ..., 
+ [ 42.  42.  42. ...,  42.  42.  42.]
+ [ 42.  42.  42. ...,  42.  42.  42.]
+ [ 42.  42.  42. ...,  42.  42.  42.]]
+Press a key to start workers using multiprocessing...
+
+ worker_fn: with idx 0
+  id of shared_array is 24904624 in PID 11034
+ worker_fn: with idx 2000
+  id of shared_array is 24904624 in PID 11037
+ worker_fn: with idx 1000
+  id of shared_array is 24904624 in PID 11035
+ worker_fn: with idx 4000
+  id of shared_array is 24904624 in PID 11037
+ worker_fn: with idx 3000
+  id of shared_array is 24904624 in PID 11036
+ worker_fn: with idx 5000
+  id of shared_array is 24904624 in PID 11036
+ worker_fn: with idx 7000
+  id of shared_array is 24904624 in PID 11037
+ worker_fn: with idx 6000
+  id of shared_array is 24904624 in PID 11035
+ worker_fn: with idx 9000
+  id of shared_array is 24904624 in PID 11034
+ worker_fn: with idx 8000
+  id of shared_array is 24904624 in PID 11036
+
+The default value has been over-written with worker_fn's result:
+[[ 11034.  11034.  11034. ...,  11034.  11034.  11034.]
+ [ 11034.  11034.  11034. ...,  11034.  11034.  11034.]
+ [ 11034.  11034.  11034. ...,  11034.  11034.  11034.]
+ ..., 
+ [ 11037.  11037.  11037. ...,  11037.  11037.  11037.]
+ [ 11037.  11037.  11037. ...,  11037.  11037.  11037.]
+ [ 11037.  11037.  11037. ...,  11037.  11037.  11037.]]
+
+Verification - extracting unique values from 400,000,000 items
+in the numpy array (this might be slow)...
+Unique values in shared_array:
++---------+-----------+
+|   PID   |   Count   |
++---------+-----------+
+| 11034.0 | 100000000 |
+| 11035.0 | 100000000 |
+| 11036.0 | 100000000 |
+| 11037.0 | 100000000 |
++---------+-----------+
+Press a key to exit...
+

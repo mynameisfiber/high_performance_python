@@ -1,0 +1,5 @@
+type,min_size (byte),max_size (byte),min_read (Mb/s),max_read (Mb/s),min_write (Mb/s),max_write (Mb/s),min_read_latency (ms),max_read_latency (ms)
+spinning hard drive,1073741824,4398046511104,50,200,50,200,6.7,23
+solid state drive,1073741824,1099511627776,96,524,40,530,0.03,.54
+RAM,536870912,34359738368,6400,17066,6400,17066,.00001,.0004
+L1/L2 Cache,16384,262144,26214.4,419430.4,26214.4,419430.4,.000003,.0001

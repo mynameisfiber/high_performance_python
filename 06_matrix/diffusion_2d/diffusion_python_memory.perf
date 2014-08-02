@@ -1,0 +1,20 @@
+
+ Performance counter stats for 'python diffusion_python_memory.py' (3 runs):
+
+   329,155,359,015 cycles                    #    3.477 GHz                      ( +-  0.47% )
+    76,800,457,550 stalled-cycles-frontend   #   23.33% frontend cycles idle     ( +-  1.75% )
+    46,556,100,820 stalled-cycles-backend    #   14.14% backend  cycles idle     ( +-  0.77% )
+   598,135,111,009 instructions              #    1.82  insns per cycle        
+                                             #    0.13  stalled cycles per insn  ( +-  0.00% )
+        35,497,196 cache-references          #    0.375 M/sec                    ( +-  0.94% )
+        10,716,972 cache-misses              #   30.191 % of all cache refs      ( +- 15.51% )
+   133,881,241,254 branches                  # 1414.067 M/sec                    ( +-  0.00% )
+     2,891,093,384 branch-misses             #    2.16% of all branches          ( +-  0.12% )
+      94678.127621 task-clock                #    0.999 CPUs utilized            ( +-  0.48% )
+             5,439 page-faults               #    0.057 K/sec                    ( +-  0.01% )
+             5,439 minor-faults              #    0.057 K/sec                    ( +-  0.01% )
+               125 context-switches          #    0.001 K/sec                    ( +-  2.55% )
+                 6 CPU-migrations            #    0.000 K/sec                    ( +- 16.67% )
+
+      94.749389121 seconds time elapsed                                          ( +-  0.48% )
+

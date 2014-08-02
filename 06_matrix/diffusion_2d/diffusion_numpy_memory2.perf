@@ -1,0 +1,20 @@
+
+ Performance counter stats for 'python diffusion_numpy_memory2.py' (3 runs):
+
+     4,303,799,244 cycles                    #    3.108 GHz                      ( +-  0.32% )
+     2,814,678,053 stalled-cycles-frontend   #   65.40% frontend cycles idle     ( +-  0.49% )
+     1,635,172,736 stalled-cycles-backend    #   37.99% backend  cycles idle     ( +-  0.63% )
+     4,631,882,411 instructions              #    1.08  insns per cycle        
+                                             #    0.61  stalled cycles per insn  ( +-  0.00% )
+       272,151,957 cache-references          #  196.563 M/sec                    ( +-  0.57% )
+         2,835,948 cache-misses              #    1.042 % of all cache refs      ( +-  2.45% )
+       621,565,054 branches                  #  448.928 M/sec                    ( +-  0.01% )
+         2,905,879 branch-misses             #    0.47% of all branches          ( +-  0.63% )
+       1384.555494 task-clock                #    0.999 CPUs utilized            ( +-  7.82% )
+             5,559 page-faults               #    0.004 M/sec                    ( +-  0.01% )
+             5,559 minor-faults              #    0.004 M/sec                    ( +-  0.01% )
+                 6 context-switches          #    0.004 K/sec                    ( +- 19.25% )
+                 3 CPU-migrations            #    0.002 K/sec                    ( +- 85.44% )
+
+       1.386148918 seconds time elapsed                                          ( +-  7.83% )
+
