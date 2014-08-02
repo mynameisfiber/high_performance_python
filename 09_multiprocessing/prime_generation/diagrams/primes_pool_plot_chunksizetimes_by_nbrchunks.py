@@ -22,12 +22,12 @@ if __name__ == "__main__":
         '--create_data',
         action="store_true",
         default=False,
-        help='if present then calculate data, if absent then plot') 
+        help='if present then calculate data, if absent then plot')
     parser.add_argument(
         '--shuffle',
         action="store_true",
         default=False,
-        help='randomly shuffle the job sequence') 
+        help='randomly shuffle the job sequence')
     args = parser.parse_args()
 
     number_range = range(100000000, 100100000)  # B
@@ -91,6 +91,6 @@ if __name__ == "__main__":
             "Time cost of varying number of chunks with {} processes for\nprime checking in range [{}-{}]".format(
                 NBR_PROCESSES,
                 min(number_range),
-                max(number_range))) 
+                max(number_range)))
         plt.tight_layout()
         plt.savefig(png_filename)

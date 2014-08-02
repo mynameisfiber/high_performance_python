@@ -6,7 +6,7 @@ parser.add_argument(
     '--slow',
     action="store_true",
     default=False,
-     help='if present then draw slow result, if not then fast results') 
+    help='if present then draw slow result, if not then fast results')
 args = parser.parse_args()
 
 labels = ["small non-prime", "large non-prime 1",

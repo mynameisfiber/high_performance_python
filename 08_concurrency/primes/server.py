@@ -26,7 +26,7 @@ if __name__ == "__main__":
     port = options.options.port
 
     application = web.Application([
-        (r"/add",  AddPrime),
+        (r"/add", AddPrime),
     ])
 
     http_server = httpserver.HTTPServer(application)

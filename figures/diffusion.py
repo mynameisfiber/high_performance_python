@@ -17,10 +17,10 @@ def roll_add(rollee, shift, axis, out):
         out[-1, :] += rollee[0,:]
     elif shift == 1 and axis == 1:
         out[:, 1:] += rollee[:, :-1]
-        out[:, 0] += rollee[:,  -1]
+        out[:, 0] += rollee[:, -1]
     elif shift == -1 and axis == 1:
         out[:, :-1] += rollee[:, 1:]
-        out[:,  -1] += rollee[:,  0]
+        out[:, -1] += rollee[:, 0]
 
 
 def laplacian(grid, out):

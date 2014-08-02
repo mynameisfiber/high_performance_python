@@ -23,12 +23,12 @@ if __name__ == "__main__":
         '--create_data',
         action="store_true",
         default=False,
-        help='if present then calculate data, if absent then plot') 
+        help='if present then calculate data, if absent then plot')
     parser.add_argument(
         '--shuffle',
         action="store_true",
         default=False,
-        help='randomly shuffle the job sequence') 
+        help='randomly shuffle the job sequence')
     args = parser.parse_args()
 
     primes = []
@@ -49,7 +49,7 @@ if __name__ == "__main__":
         shuffle_in_filename, plot_type)
     png_filename = "08_primes_pool_plot_chunksizetimes_1to50000_{}plottype{}.png".format(
         shuffle_in_filename,
-        plot_type) 
+        plot_type)
 
     if CREATE_DATA:
         time_per_chunksize = []
@@ -116,7 +116,7 @@ if __name__ == "__main__":
             "Time cost of varying chunksizes with {} processes for\nprime checking in range [{}-{}]".format(
                 NBR_PROCESSES,
                 min(number_range),
-                max(number_range))) 
+                max(number_range)))
         # plt.grid()
         # plt.show()
         # manually add plt.tight_layout()

@@ -8,7 +8,7 @@ grid_shape = (512, 512)
 
 def laplacian(grid):
     return roll(grid, +1, 0) + roll(grid, -1, 0) + \
-                roll(grid, +1, 1) + roll(grid, -1, 1) - 4 * grid
+        roll(grid, +1, 1) + roll(grid, -1, 1) - 4 * grid
 
 
 def evolve(grid, dt, D=1):

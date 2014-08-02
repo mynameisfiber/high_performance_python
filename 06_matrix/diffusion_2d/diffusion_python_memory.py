@@ -11,8 +11,8 @@ def evolve(grid, dt, out, D=1.0):
     for i in xrange(xmax):
         for j in xrange(ymax):
             grid_xx = grid[(i + 1) %
-    xmax][j] + grid[(i - 1) %
-     xmax][j] - 2.0 * grid[i][j] 
+                           xmax][j] + grid[(i - 1) %
+                                           xmax][j] - 2.0 * grid[i][j]
             grid_yy = grid[i][(j + 1) % ymax] + \
                 grid[i][(j - 1) % ymax] - 2.0 * grid[i][j]
             out[i][j] = grid[i][j] + D * (grid_xx + grid_yy) * dt

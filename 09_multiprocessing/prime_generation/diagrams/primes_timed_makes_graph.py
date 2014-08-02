@@ -21,7 +21,7 @@ if __name__ == "__main__":
         '--create_data',
         action="store_true",
         default=False,
-        help='if present then calculate data, if absent then plot') 
+        help='if present then calculate data, if absent then plot')
     args = parser.parse_args()
     filename = "08_prime_time_cost_1e4to1e6.pickle"
 
@@ -69,7 +69,7 @@ if __name__ == "__main__":
             '.',
             color='b',
             alpha=0.6,
-             label="Not prime") 
+            label="Not prime")
         plt.plot(numbers_to_test[are_primes], times[
                  are_primes], 'x', color='k', alpha=1, )
         plt.xlabel("Integers to test")

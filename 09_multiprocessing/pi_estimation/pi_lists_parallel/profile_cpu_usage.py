@@ -47,7 +47,7 @@ if __name__ == "__main__":
         '--nbr_processes',
         default=1,
         type=int,
-        help='required positional argument') 
+        help='required positional argument')
     args = parser.parse_args()
 
     xargs = ["python", "pi_lists_parallel.py"]
@@ -71,7 +71,7 @@ if __name__ == "__main__":
                 "_").replace(
                     "/",
                     "_") for s in xargs[
-                        1:]) 
+                        1:])
     print ROOT_NAME
     PICKLE_NAME = ROOT_NAME + ".pickle"
     FIG_NAME = ROOT_NAME + ".png"

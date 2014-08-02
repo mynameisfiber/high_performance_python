@@ -18,7 +18,7 @@ def run_experiment(experiment, iterations, label, baseline=None):
         for i in xrange(extra_runs):
             test = experiment.run_experiment(nruns)
             t = min(t, test)
-    except Exception, e:
+    except Exception as e:
         print "Could not run: %s: %s" % (label, e)
         raise
 
@@ -38,7 +38,7 @@ def set_grid_shape(grid_width):
         diffusion_numpy_memory,
         diffusion_scipy,
         diffusion_numpy_memory2,
-        diffusion_numpy_memory2_numexpr) 
+        diffusion_numpy_memory2_numexpr)
     for m in modules:
         if m is not None:
             setattr(m, "grid_shape", (grid_width, grid_width))
@@ -58,13 +58,13 @@ if __name__ == "__main__":
                 diffusion_python_memory,
                 nruns,
                 "python+memory",
-                baseline)) 
-        data[ 'numpy+memory'].append(
+                baseline))
+        data['numpy+memory'].append(
             run_experiment(
                 diffusion_numpy_memory,
                 nruns,
                 "numpy+memory",
-                baseline)) 
+                baseline))
         data['numpy'].append(
             run_experiment(diffusion_numpy, nruns, "numpy", baseline))
         data['numpy+memory+laplace'].append(
@@ -72,19 +72,19 @@ if __name__ == "__main__":
                 diffusion_numpy_memory2,
                 nruns,
                 "numpy+memory2",
-                baseline)) 
+                baseline))
         data['numpy+memory+laplace+numexpr'].append(
             run_experiment(
                 diffusion_numpy_memory2_numexpr,
                 nruns,
                 "numpy+memory2+numexpr",
-                baseline)) 
+                baseline))
         data['numpy+memory+scipy'].append(
             run_experiment(
                 diffusion_scipy,
                 nruns,
                 "numpy+memory+scipy",
-                baseline)) 
+                baseline))
         print ""
 
     print '[width="40%",frame="topbot",options="header"]\n|======================'

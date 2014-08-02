@@ -19,14 +19,15 @@ def read_fake_data(filename):
 
 
 def day_grouper(iterable):
-    key = lambda (timestamp, value): date.fromtimestamp(timestamp)
+    key = lambda timestamp_value: date.fromtimestamp(timestamp_value[0])
     return groupby(iterable, key)
 
 
-def check_anomaly((day, day_data)):
+def check_anomaly(xxx_todo_changeme):
     # We find the mean, standard deviation and maximum values for the day.
     # Using a single pass mean/standard deviation algorithm allows us to only
     # read through the day's data once.
+    (day, day_data) = xxx_todo_changeme
     n = 0
     mean = 0
     M2 = 0

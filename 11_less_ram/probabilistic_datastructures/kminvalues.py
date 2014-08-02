@@ -18,4 +18,4 @@ class KMinValues(object):
         if len(self.data) <= 2:
             return 0
         return (self.num_hashes - 1) * (2 ** 32 - 1) / \
-                float(self.data[-2] + 2 ** 31 - 1)
+            float(self.data[-2] + 2 ** 31 - 1)

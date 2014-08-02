@@ -22,12 +22,12 @@ if __name__ == "__main__":
         '--nbr_samples_in_total',
         type=int,
         default=1e8,
-        help='Number of samples in total e.g. 100000000') 
+        help='Number of samples in total e.g. 100000000')
     parser.add_argument(
         '--processes',
         action="store_true",
         default=False,
-        help='True if using Processes, absent (False) for Threads') 
+        help='True if using Processes, absent (False) for Threads')
 
     args = parser.parse_args()
     if args.processes:

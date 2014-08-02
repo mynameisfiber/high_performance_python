@@ -108,5 +108,5 @@ if __name__ == "__main__":
         generate_keys(
             60000,
             3),
-         methods) 
+        methods)
     py.show()

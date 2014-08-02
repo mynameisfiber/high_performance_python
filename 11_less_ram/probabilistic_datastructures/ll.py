@@ -19,4 +19,4 @@ class LL(object):
     def __len__(self):
         register_sum = sum(h.counter for h in self.registers)
         return 2 ** (float(register_sum) / self.num_registers) * \
-                     self.num_registers * self.alpha
+            self.num_registers * self.alpha

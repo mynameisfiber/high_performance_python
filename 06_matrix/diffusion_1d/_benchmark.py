@@ -12,7 +12,7 @@ import diffusion_numpy_memory2_numexpr
 def run_experiment(experiment, iterations, label, baseline=None):
     try:
         t = experiment.run_experiment(nruns)
-    except Exception, e:
+    except Exception as e:
         print "Could not run: %s: %s" % (label, e)
         raise
 
@@ -32,7 +32,7 @@ def set_grid_shape(grid_width):
         diffusion_numpy_memory,
         diffusion_scipy,
         diffusion_numpy_memory2,
-        diffusion_numpy_memory2_numexpr) 
+        diffusion_numpy_memory2_numexpr)
     for m in modules:
         if m is not None:
             setattr(m, "grid_shape", (grid_width,))
@@ -54,6 +54,6 @@ if __name__ == "__main__":
             diffusion_numpy_memory2_numexpr,
             nruns,
             "numpy+memory2+numexpr",
-            baseline) 
+            baseline)
         run_experiment(diffusion_scipy, nruns, "numpy+memory+scipy", baseline)
         print ""

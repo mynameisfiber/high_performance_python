@@ -22,7 +22,8 @@ def init(val):
     value = val
 
 
-def check_prime_in_range((n, (from_i, to_i))):
+def check_prime_in_range(xxx_todo_changeme):
+    (n, (from_i, to_i)) = xxx_todo_changeme
     global value
     if n % 2 == 0:
         return False
@@ -83,5 +84,5 @@ if __name__ == "__main__":
                 NBR_PROCESSES),
             repeat=20,
             number=1,
-            setup="from __main__ import pool, check_prime") 
+            setup="from __main__ import pool, check_prime")
         print "{:19} ({}) {: 3.6f}s".format(label, nbr, min(time_costs))

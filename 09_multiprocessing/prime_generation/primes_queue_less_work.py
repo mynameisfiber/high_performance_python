@@ -40,7 +40,7 @@ if __name__ == "__main__":
             target=check_prime,
             args=(
                 possible_primes_queue,
-                definite_primes_queue)) 
+                definite_primes_queue))
         processes.append(p)
         p.start()
 

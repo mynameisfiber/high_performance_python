@@ -23,7 +23,7 @@ if __name__ == "__main__":
         '--create_data',
         action="store_true",
         default=False,
-        help='if present then calculate data, if absent then plot') 
+        help='if present then calculate data, if absent then plot')
     args = parser.parse_args()
 
     filename = "primes_validation_count_of_factors.pickle".format()

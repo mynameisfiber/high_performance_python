@@ -13,7 +13,8 @@ FLAG_SET = b'1'
 print "CHECK_EVERY", CHECK_EVERY
 
 
-def check_prime_in_range((n, (from_i, to_i), value)):
+def check_prime_in_range(xxx_todo_changeme):
+    (n, (from_i, to_i), value) = xxx_todo_changeme
     if n % 2 == 0:
         return False
     assert from_i % 2 != 0
@@ -49,7 +50,7 @@ def check_prime(n, pool, nbr_processes, value):
         [n],
         ranges_to_check,
         len(ranges_to_check) *
-        [value]) 
+        [value])
     assert len(ranges_to_check) == nbr_processes
     results = pool.map(check_prime_in_range, ranges_to_check)
     if False in results:
@@ -78,5 +79,5 @@ if __name__ == "__main__":
                 NBR_PROCESSES),
             repeat=20,
             number=1,
-            setup="from __main__ import pool, check_prime, value") 
+            setup="from __main__ import pool, check_prime, value")
         print "{:19} ({}) {: 3.6f}s".format(label, nbr, min(time_costs))

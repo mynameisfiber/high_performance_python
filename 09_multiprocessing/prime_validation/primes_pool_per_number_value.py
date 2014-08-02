@@ -13,7 +13,8 @@ FLAG_SET = b'1'
 print "CHECK_EVERY", CHECK_EVERY
 
 
-def check_prime_in_range((n, (from_i, to_i))):
+def check_prime_in_range(xxx_todo_changeme):
+    (n, (from_i, to_i)) = xxx_todo_changeme
     if n % 2 == 0:
         return False
     assert from_i % 2 != 0
@@ -72,6 +73,6 @@ if __name__ == "__main__":
                 NBR_PROCESSES),
             repeat=20,
             number=1,
-            setup="from __main__ import pool, check_prime") 
+            setup="from __main__ import pool, check_prime")
         print "check_prime returns:", check_prime(nbr, pool, NBR_PROCESSES)
         print "{:19} ({}) {: 3.6f}s".format(label, nbr, min(time_costs))

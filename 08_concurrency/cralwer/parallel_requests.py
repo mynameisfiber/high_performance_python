@@ -26,7 +26,7 @@ def download(url, semaphore):
     try:
         with semaphore, closing(urllib2.urlopen(url)) as data:
             return data.read()
-    except Exception, e:
+    except Exception as e:
         print "retrying: ", e
         return download(url, semaphore)
 

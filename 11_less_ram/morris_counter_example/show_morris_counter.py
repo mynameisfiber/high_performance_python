@@ -44,7 +44,7 @@ if __name__ == "__main__":
                 values_in_morris_counter,
                 '--',
                 alpha=0.8,
-                label="Morris counter {} (1 byte)".format(counter)) 
+                label="Morris counter {} (1 byte)".format(counter))
         plt.title("Morris counter behavior")
         plt.legend(loc=2, fancybox=True, framealpha=0.8)
         plt.xlabel("Iteration")

@@ -27,5 +27,5 @@ if __name__ == "__main__":
             stmt="check_prime({})".format(nbr),
             repeat=20,
             number=1,
-            setup="from __main__ import check_prime") 
+            setup="from __main__ import check_prime")
         print "{:24} ({}) {: 3.6f}s".format(label, nbr, min(time_costs))

@@ -32,7 +32,7 @@ class BloomFilter(object):
         num_bits_on = self.data.count(True)
         return -1.0 * self.num_bits * \
             math.log(1.0 - num_bits_on / float(self.num_bits)) / \
-                     float(self.num_hashes)
+            float(self.num_hashes)
 
     @staticmethod
     def union(bloom_a, bloom_b):

@@ -20,4 +20,4 @@ class SuperLL(LL):
 
         alpha = 0.7213 / (1.0 + 1.079 / register_num2)
         return 2 ** (float(register_sum) / register_num2) * \
-                     register_num2 * alpha
+            register_num2 * alpha

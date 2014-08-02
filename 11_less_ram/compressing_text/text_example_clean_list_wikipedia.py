@@ -11,7 +11,7 @@ matches = []
 WIKIPEDIA_RAW_DIR = "/media/ian/data/wikipedia_data_dump/extracted/"
 # ["/media/ian/data/wikipedia_data_dump/extracted/AA", "/media/ian/data/wikipedia_data_dump/extracted/AB"]  # off of western digital
 WIKIPEDIA_FILES_ROOTS = glob.glob(os.path.join(
-    WIKIPEDIA_RAW_DIR, "A*")) + glob.glob(os.path.join(WIKIPEDIA_RAW_DIR, "B*") )
+    WIKIPEDIA_RAW_DIR, "A*")) + glob.glob(os.path.join(WIKIPEDIA_RAW_DIR, "B*"))
 print "Working from raw roots:", WIKIPEDIA_FILES_ROOTS
 for wikipedia_files_root in WIKIPEDIA_FILES_ROOTS:
     for root, dirnames, filenames in os.walk(wikipedia_files_root):
