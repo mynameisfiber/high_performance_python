@@ -11,7 +11,8 @@ def estimate_nbr_points_in_circle(nbr_samples):
     xs = np.random.uniform(0, 1, nbr_samples)
     ys = np.random.uniform(0, 1, nbr_samples)
     estimate_inside_quarter_unit_circle = (xs * xs + ys * ys) <= 1
-    nbr_trials_in_quarter_unit_circle = np.sum(estimate_inside_quarter_unit_circle)
+    nbr_trials_in_quarter_unit_circle = np.sum(
+        estimate_inside_quarter_unit_circle)
     return nbr_trials_in_quarter_unit_circle
 
 

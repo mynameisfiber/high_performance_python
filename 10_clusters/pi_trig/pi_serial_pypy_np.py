@@ -7,11 +7,11 @@ import numpy as np
 # http://morepypy.blogspot.co.uk/2013/11/numpy-status-update.html
 # http://buildbot.pypy.org/numpy-status/latest.html
 
+
 def y_is_in_circle(x, y):
     """Test if x,y coordinate lives within the radius of the unit circle"""
     circle_edge_y = np.sin(np.arccos(x))
     return y <= circle_edge_y
-
 
 
 nbr_samples = int(1e7)

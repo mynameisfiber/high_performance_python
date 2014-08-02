@@ -10,20 +10,25 @@ def index_sequence(key, mask=0b111, PERTURB_SHIFT=5):
         perturb >>= PERTURB_SHIFT
         yield i & mask
 
+
 class ForceHash(object):
+
     def __init__(self, force_hash):
         self.force_hash = force_hash
+
     def __hash__(self):
         return self.force_hash
+
     def __str__(self):
         return "0b{:08b}".format(self.force_hash)
+
 
 def sample_probe(force_hash, num_samples=10):
     probe_values = index_sequence(force_hash)
     indexes = islice(probe_values, num_samples)
     print "First {} samples for hash {: >10}: {}".format(
-        num_samples, 
-        force_hash, 
+        num_samples,
+        force_hash,
         list(indexes)
     )
 

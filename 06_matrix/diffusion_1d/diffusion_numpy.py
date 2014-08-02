@@ -5,11 +5,14 @@ import time
 
 grid_size = (512, )
 
+
 def laplacian(grid):
     return np.roll(grid, +1) + np.roll(grid, -1) - 2 * grid
 
+
 def evolve(grid, dt, D=1):
     return grid + dt * D * laplacian(grid)
+
 
 def run_experiment(num_iterations):
     grid = np.zeros(grid_size)

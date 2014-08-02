@@ -24,7 +24,7 @@ from prettytable import PrettyTable
 
 #SIZE_A, SIZE_B = 10000, 100
 #SIZE_A, SIZE_B = 10000, 1000
-#SIZE_A, SIZE_B = 10000, 40000  # 3.2GB (3.2e9 bytes)  # GOOD DEMO
+# SIZE_A, SIZE_B = 10000, 40000  # 3.2GB (3.2e9 bytes)  # GOOD DEMO
 SIZE_A, SIZE_B = 10000, 80000  # 6.2GB - starts to use swap via htop
 
 
@@ -48,7 +48,8 @@ if __name__ == '__main__':
 
     # create a block of bytes, reshape into a local numpy array
     NBR_ITEMS_IN_ARRAY = SIZE_A * SIZE_B
-    shared_array_base = multiprocessing.Array(ctypes.c_double, NBR_ITEMS_IN_ARRAY, lock=False)
+    shared_array_base = multiprocessing.Array(
+        ctypes.c_double, NBR_ITEMS_IN_ARRAY, lock=False)
     main_nparray = np.frombuffer(shared_array_base, dtype=ctypes.c_double)
     main_nparray = main_nparray.reshape(SIZE_A, SIZE_B)
     # Assert no copy was made
@@ -77,7 +78,7 @@ if __name__ == '__main__':
     t1 = time.time()
     pool.map(worker_fn, xrange(SIZE_A))
     t2 = time.time()
-    print "Took:", t2-t1
+    print "Took:", t2 - t1
 
     print
     print "The default value has been over-written with worker_fn's result:"

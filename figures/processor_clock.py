@@ -13,7 +13,8 @@ if __name__ == "__main__":
     fig = py.gcf()
 
     ax.scatter(mdates.date2num(dates), clock, alpha=0.5)
-    ax.set_xticklabels([d.strftime("%Y") for d in mdates.num2date(ax.get_xticks())], rotation=15, ha='right')
+    ax.set_xticklabels([d.strftime("%Y") for d in mdates.num2date(
+        ax.get_xticks())], rotation=15, ha='right')
     ax.set_yscale('log')
 
     ax.set_ylabel("Clock speed (MHz)")

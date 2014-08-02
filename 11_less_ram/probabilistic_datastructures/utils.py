@@ -15,4 +15,3 @@ def trailing_zeros(number):
     while (number >> index) & 1 == 0:
         index += 1
     return index + 1
-

@@ -5,11 +5,15 @@ import time
 
 grid_shape = (512, 512)
 
+
 def laplacian(grid):
-    return roll(grid, +1, 0) + roll(grid, -1, 0) + roll(grid, +1, 1) + roll(grid, -1, 1) - 4 * grid
+    return roll(grid, +1, 0) + roll(grid, -1, 0) + \
+                roll(grid, +1, 1) + roll(grid, -1, 1) - 4 * grid
+
 
 def evolve(grid, dt, D=1):
     return grid + dt * D * laplacian(grid)
+
 
 def run_experiment(num_iterations):
     grid = zeros(grid_shape)

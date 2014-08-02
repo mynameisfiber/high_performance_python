@@ -44,7 +44,12 @@ def check_prime(n, pool, nbr_processes, value):
     to_i = int(math.sqrt(n)) + 1
 
     ranges_to_check = create_range.create(from_i, to_i, nbr_processes)
-    ranges_to_check = zip(len(ranges_to_check) * [n], ranges_to_check, len(ranges_to_check) * [value])
+    ranges_to_check = zip(
+        len(ranges_to_check) *
+        [n],
+        ranges_to_check,
+        len(ranges_to_check) *
+        [value]) 
     assert len(ranges_to_check) == nbr_processes
     results = pool.map(check_prime_in_range, ranges_to_check)
     if False in results:
@@ -61,12 +66,17 @@ if __name__ == "__main__":
     for label, nbr in [("trivial non-prime", 112272535095295),
                        ("expensive non-prime18_1", 100109100129100369),
                        ("expensive non-prime18_2", 100109100129101027),
-                       #("prime", 112272535095293)]:  # 15
+                       # ("prime", 112272535095293)]:  # 15
                        #("prime17",  10000000002065383)]
                        ("prime18_1", 100109100129100151),
                        ("prime18_2", 100109100129162907)]:
                        #("prime23", 22360679774997896964091)]:
 
-        time_costs = timeit.repeat(stmt="check_prime({}, pool, {}, value)".format(nbr, NBR_PROCESSES), repeat=20, number=1,
-                                   setup="from __main__ import pool, check_prime, value")
+        time_costs = timeit.repeat(
+            stmt="check_prime({}, pool, {}, value)".format(
+                nbr,
+                NBR_PROCESSES),
+            repeat=20,
+            number=1,
+            setup="from __main__ import pool, check_prime, value") 
         print "{:19} ({}) {: 3.6f}s".format(label, nbr, min(time_costs))

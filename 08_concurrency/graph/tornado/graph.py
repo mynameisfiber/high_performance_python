@@ -8,7 +8,9 @@ import tornadoredis
 options.define("port", default=8080, help="Port to serve on")
 rdb = None
 
+
 class AddNode(web.RequestHandler):
+
     @gen.coroutine
     @web.asynchronous
     def get(self):
@@ -24,17 +26,20 @@ class AddNode(web.RequestHandler):
         self.write("OK")
         self.finish()
 
+
 @gen.coroutine
 def traverse_graph(rdb, node, depth):
     links = yield gen.Task(rdb.smembers, node)
     data = {node: list(links)}
     if depth > 1:
-        updates = yield [gen.Task(traverse_graph, rdb, link, depth-1) for link in links if link not in data]
+        updates = yield [gen.Task(traverse_graph, rdb, link, depth - 1) for link in links if link not in data]
         for update in updates:
             data.update(update)
     raise gen.Return(value=data)
 
+
 class ViewGraph(web.RequestHandler):
+
     @gen.coroutine
     @web.asynchronous
     def get(self):
@@ -66,5 +71,3 @@ if __name__ == "__main__":
     http_server.listen(port)
     print("Listening on port: {}".format(port))
     ioloop.IOLoop.instance().start()
-
-

@@ -1,8 +1,10 @@
 import numpy
 import time
 
+
 def norm_square_numpy_dot(vector):
     return numpy.dot(vector, vector)
+
 
 def run_experiment(size, num_iter=3):
     vector = numpy.arange(size)

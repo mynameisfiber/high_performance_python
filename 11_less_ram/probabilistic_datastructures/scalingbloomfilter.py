@@ -1,7 +1,10 @@
 from bloomfilter import BloomFilter
 
+
 class ScalingBloomFilter(object):
-    def __init__(self, capacity, error=0.005, max_fill=0.8, error_tightening_ratio=0.5):
+
+    def __init__(self, capacity, error=0.005, max_fill=0.8,
+                 error_tightening_ratio=0.5):
         self.capacity = capacity
         self.base_error = error
         self.max_fill = max_fill
@@ -12,7 +15,8 @@ class ScalingBloomFilter(object):
         self._add_bloom()
 
     def _add_bloom(self):
-        new_error = self.base_error * self.error_tightening_ratio ** len(self.bloom_filters)
+        new_error = self.base_error * \
+            self.error_tightening_ratio ** len(self.bloom_filters)
         new_bloom = BloomFilter(self.capacity, new_error)
         self.bloom_filters.append(new_bloom)
         self.current_bloom = new_bloom
@@ -25,7 +29,8 @@ class ScalingBloomFilter(object):
         self.items_until_scale -= 1
         if self.items_until_scale == 0:
             bloom_size = len(self.current_bloom)
-            bloom_max_capacity = int(self.current_bloom.capacity * self.max_fill)
+            bloom_max_capacity = int(
+                self.current_bloom.capacity * self.max_fill)
 
             # We may have been adding many duplicate values into the bloom, so
             # we need to check if we actually need to scale or if we still have
@@ -42,4 +47,3 @@ class ScalingBloomFilter(object):
 
     def __len__(self):
         return sum(len(bloom) for bloom in self.bloom_filters)
-

@@ -4,6 +4,7 @@ import time
 
 grid_shape = (512, 512)
 
+
 def run_experiment(num_iterations):
     scratch = np.zeros(grid_shape, dtype=np.double)
     grid = np.zeros(grid_shape, dtype=np.double)
@@ -21,4 +22,3 @@ def run_experiment(num_iterations):
 if __name__ == "__main__":
     t = run_experiment(500)
     print t
-

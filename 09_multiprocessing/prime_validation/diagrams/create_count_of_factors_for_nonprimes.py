@@ -19,7 +19,11 @@ def check_prime(n):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Project description')
-    parser.add_argument('--create_data', action="store_true", default=False, help='if present then calculate data, if absent then plot')
+    parser.add_argument(
+        '--create_data',
+        action="store_true",
+        default=False,
+        help='if present then calculate data, if absent then plot') 
     args = parser.parse_args()
 
     filename = "primes_validation_count_of_factors.pickle".format()
@@ -35,10 +39,10 @@ if __name__ == "__main__":
         for is_prime, factor in are_primes:
             if not is_prime:
                 c.update([factor])
-        #for n in number_range:
+        # for n in number_range:
             #is_prime, factor = check_prime(n)
-            #if not is_prime:
-                #c.update([factor])
+            # if not is_prime:
+                # c.update([factor])
         PICKLED_DATA = (upper_bound, c)
         cPickle.dump(PICKLED_DATA, open(filename, 'wb'))
     else:
@@ -50,11 +54,12 @@ if __name__ == "__main__":
         plt.barh(c.keys(), c.values(), log=True)
         #plt.plot(nbr_chunks_per_trial, time_per_chunksize, "bx-", label="experiments")
         #ax = f.get_axes()[0]
-        plt.title("Count of {:,} factors of non-primes to {:,}".format(len(c), upper_bound))
+        plt.title(
+            "Count of {:,} factors of non-primes to {:,}".format(len(c), upper_bound))
         plt.ylabel("Factor for non-prime")
         plt.xlabel("Frequency of factor")
         plt.ylim(ymax=max(c.keys()) + 100)
         plt.xlim(xmax=c[2] + 100)
         plt.tight_layout()
         plt.savefig(png_filename)
-        #plt.show()
+        # plt.show()

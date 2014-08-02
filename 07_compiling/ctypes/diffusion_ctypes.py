@@ -13,14 +13,15 @@ TYPE_DOUBLE_SS = ctypes.POINTER(ctypes.POINTER(ctypes.c_double))
 # Initialize the signature of the evolve function to:
 # void evolve(int, int, double**, double**, double, double)
 _diffusion.evolve.argtypes = [
-    TYPE_INT, 
-    TYPE_INT, 
-    TYPE_DOUBLE_SS, 
+    TYPE_INT,
+    TYPE_INT,
     TYPE_DOUBLE_SS,
-    TYPE_DOUBLE, 
+    TYPE_DOUBLE_SS,
+    TYPE_DOUBLE,
     TYPE_DOUBLE,
 ]
 _diffusion.evolve.restype = None
+
 
 def evolve(grid, out, dt, D=1.0):
     # First we convert the python types into the relevant C types
@@ -33,6 +34,7 @@ def evolve(grid, out, dt, D=1.0):
 
     # Now we can call the function
     _diffusion.evolve(cX, cY, pointer_grid, pointer_out, cD, cdt)
+
 
 def run_experiment(num_iterations):
     scratch = np.zeros(grid_shape, dtype=ctypes.c_double)
@@ -51,4 +53,3 @@ def run_experiment(num_iterations):
 if __name__ == "__main__":
     t = run_experiment(500)
     print t
-

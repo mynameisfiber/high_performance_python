@@ -20,14 +20,14 @@ if __name__ == "__main__":
     pool = multiprocessing.Pool(processes=NBR_PROCESSES)
 
     t1 = time.time()
-    #number_range = xrange(100000000, 100010000)  # A
-    #number_range = xrange(100000000, 100100000)  # B
+    # number_range = xrange(100000000, 100010000)  # A
+    # number_range = xrange(100000000, 100100000)  # B
     number_range = xrange(100000000, 101000000)  # C
-    #number_range = xrange(1000000000, 1000100000)  # D
-    #number_range = xrange(100000000000, 100000100000)  # E
+    # number_range = xrange(1000000000, 1000100000)  # D
+    # number_range = xrange(100000000000, 100000100000)  # E
 
-    #are_primes = pool.map(check_prime, number_range)  # original
-    #primes = np.array(number_range)[np.array(are_primes)]  # original
+    # are_primes = pool.map(check_prime, number_range)  # original
+    # primes = np.array(number_range)[np.array(are_primes)]  # original
     #
     # note using pool.map is fastest, but uses ram
     # using pool.imap is slower but uses less ram

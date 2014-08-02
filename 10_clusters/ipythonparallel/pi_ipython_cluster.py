@@ -5,15 +5,15 @@ from IPython.parallel import Client, require
 NBR_ESTIMATES = 1e6
 
 
-#@require('NBR_ESTIMATES')  # cannot require a const
+# @require('NBR_ESTIMATES')  # cannot require a const
 
 @require('random')
 def calculate_pi(nbr_estimates):
-#def calculate_pi():
+    # def calculate_pi():
     #nbr_estimates = NBR_ESTIMATES
 
-    #print "hello_world_from_ian"
-    #print nbr_estimates
+    # print "hello_world_from_ian"
+    # print nbr_estimates
     #nbr_estimates = 1e6
     steps = xrange(int(nbr_estimates))
     nbr_trials_in_unit_circle = 0
@@ -28,14 +28,14 @@ def calculate_pi(nbr_estimates):
 
 if __name__ == "__main__":
     c = Client()
-    #print c.ids
+    # print c.ids
     nbr_engines = len(c.ids)
     print "We're using {} engines".format(nbr_engines)
 
     dview = c[:]
 
     # apply fn on the view's workers
-    #dview.push({'NBR_ESTIMATES': NBR_ESTIMATES})  # push a global value out
+    # dview.push({'NBR_ESTIMATES': NBR_ESTIMATES})  # push a global value out
     nbr_in_unit_circles = dview.apply_sync(calculate_pi, NBR_ESTIMATES)
 
     # apply fn with the same arg to all

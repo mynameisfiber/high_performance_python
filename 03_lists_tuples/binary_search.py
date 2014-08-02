@@ -13,7 +13,7 @@ def binary_search(needle, haystack):
         if haystack[midpoint] > needle:
             imax = midpoint
         elif haystack[midpoint] < needle:
-            imin = midpoint+1
+            imin = midpoint + 1
         else:
             return midpoint
 
@@ -27,14 +27,14 @@ if __name__ == "__main__":
         for needle in (1, 6000, 9000, 1000000):
             index = binary_search(needle, haystack)
             t = timeit.timeit(
-                stmt = 'binary_search(needle, haystack)',
-                setup = setup,
-                number = iterations
+                stmt='binary_search(needle, haystack)',
+                setup=setup,
+                number=iterations
             )
             print "Value {: <8} found in haystack of size {: <8} at index " \
-                    "{: <8} in {:.5e} seconds".format(
-                needle, 
-                len(haystack),
-                index, 
-                t / iterations
-            )
+                "{: <8} in {:.5e} seconds".format(
+                    needle,
+                    len(haystack),
+                    index,
+                    t / iterations
+                )

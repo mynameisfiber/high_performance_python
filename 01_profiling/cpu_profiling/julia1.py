@@ -27,14 +27,17 @@ def show_greyscale(output_raw, width, height, max_iterations):
 def show_false_greyscale(output_raw, width, height, max_iterations):
     """Convert list to array, show using PIL"""
     # convert our output to PIL-compatible input
-    assert width * height == len(output_raw)  # sanity check our 1D array and desired 2D form
+    # sanity check our 1D array and desired 2D form
+    assert width * height == len(output_raw)
     # rescale output_raw to be in the inclusive range [0..255]
     max_value = float(max(output_raw))
     output_raw_limited = [int(float(o) / max_value * 255) for o in output_raw]
     # create a slightly fancy colour map that shows colour changes with
     # increased contrast (thanks to John Montgomery)
-    output_rgb = ((o + (256 * o) + (256 ** 2) * o) * 16 for o in output_raw_limited)  # fancier
-    output_rgb = array.array('I', output_rgb)  # array of unsigned ints (size is platform specific)
+    output_rgb = (
+        (o + (256 * o) + (256 ** 2) * o) * 16 for o in output_raw_limited)  # fancier
+    # array of unsigned ints (size is platform specific)
+    output_rgb = array.array('I', output_rgb)
     # display with PIL/pillow
     im = Image.new("RGB", (width, height))
     # EXPLAIN RGBX L 0 -1
@@ -76,7 +79,8 @@ def calc_pure_python(draw_output, desired_width, max_iterations):
     height = len(y)
     # build a list of co-ordinates and the initial condition for each cell.
     # Note that our initial condition is a constant and could easily be removed,
-    # we use it to simulate a real-world scenario with several inputs to our function
+    # we use it to simulate a real-world scenario with several inputs to our
+    # function
     zs = []
     cs = []
     for ycoord in y:
@@ -92,7 +96,8 @@ def calc_pure_python(draw_output, desired_width, max_iterations):
     secs = end_time - start_time
     print calculate_z_serial_purepython.func_name + " took", secs, "seconds"
 
-    assert sum(output) == 33219980  # this sum is expected for 1000^2 grid with 300 iterations
+    # this sum is expected for 1000^2 grid with 300 iterations
+    assert sum(output) == 33219980
 
     if draw_output:
         #show_false_greyscale(output, width, height, max_iterations)

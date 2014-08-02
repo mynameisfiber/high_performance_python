@@ -7,7 +7,9 @@ import redis
 options.define("port", default=8080, help="Port to serve on")
 rdb = None
 
+
 class AddNode(web.RequestHandler):
+
     def get(self):
         global rdb
         node = self.get_argument("node")
@@ -17,16 +19,19 @@ class AddNode(web.RequestHandler):
         self.write("OK")
         self.finish()
 
+
 def traverse_graph(rdb, node, depth):
     links = rdb.smembers(node)
     data = {node: list(links)}
     if depth > 1:
         for link in links:
             if link not in data:
-                data.update(traverse_graph(rdb, link, depth-1))
+                data.update(traverse_graph(rdb, link, depth - 1))
     return data
 
+
 class ViewGraph(web.RequestHandler):
+
     def get(self):
         global rdb
         node = self.get_argument("node")
@@ -54,4 +59,3 @@ if __name__ == "__main__":
     http_server.listen(port)
     print("Listening on port: {}".format(port))
     ioloop.IOLoop.instance().start()
-

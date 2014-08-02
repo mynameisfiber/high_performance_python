@@ -18,6 +18,7 @@ import csv
 import numpy as np
 import pylab as py
 
+
 def plot_field(names, type, data):
     N = len(names)
     ind = np.arange(N)
@@ -26,8 +27,9 @@ def plot_field(names, type, data):
     ax = py.gca()
     bar = ax.bar(ind, data['avg'], width, color='r', yerr=data['extend'])
     ax.set_ylabel('%s (%s)' % (type, data['unit']))
-    ax.set_xticks(ind+width)
-    ax.set_xticklabels( [x.replace(" ", '\n') for x in names], rotation=45, ha='right' )
+    ax.set_xticks(ind + width)
+    ax.set_xticklabels([x.replace(" ", '\n')
+                        for x in names], rotation=45, ha='right')
     ax.set_yscale('log')
     return bar
 
@@ -45,7 +47,8 @@ if __name__ == "__main__":
         values[name][t] = np.asarray([float(line[field]) for line in data])
 
     for field in values.iterkeys():
-        values[field]['avg'] = (values[field]['min'] + values[field]['max']) / 2.0
+        values[field]['avg'] = (
+            values[field]['min'] + values[field]['max']) / 2.0
         values[field]['extend'] = values[field]['max'] - values[field]['avg']
 
     for i, f in enumerate(values.iterkeys()):

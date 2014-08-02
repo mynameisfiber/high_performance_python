@@ -4,6 +4,7 @@ import time
 
 grid_shape = (512, 512)
 
+
 def run_experiment(num_iterations):
     scratch = np.zeros(grid_shape, dtype=np.double, order='F')
     grid = np.zeros(grid_shape, dtype=np.double, order='F')

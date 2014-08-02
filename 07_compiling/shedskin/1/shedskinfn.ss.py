@@ -1,11 +1,12 @@
-def calculate_z(maxiter, zs, cs):        # maxiter: [int], zs: [list(complex)], cs: [list(complex)]
+# maxiter: [int], zs: [list(complex)], cs: [list(complex)]
+def calculate_z(maxiter, zs, cs):
     """Calculate output list using Julia update rule"""
     output = [0] * len(zs)               # [list(int)]
     for i in range(len(zs)):             # [__iter(int)]
         n = 0                            # [int]
         z = zs[i]                        # [complex]
         c = cs[i]                        # [complex]
-        while n < maxiter and abs(z) < 2: # [int]
+        while n < maxiter and abs(z) < 2:  # [int]
             z = z * z + c                # [complex]
             n += 1                       # [int]
         output[i] = n                    # [int]

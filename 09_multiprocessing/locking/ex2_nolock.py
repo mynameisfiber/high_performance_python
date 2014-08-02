@@ -15,7 +15,8 @@ def run_workers():
     processes = []
     value = multiprocessing.Value('i', 0)
     for process_nbr in range(NBR_PROCESSES):
-        p = multiprocessing.Process(target=work, args=(value, MAX_COUNT_PER_PROCESS))
+        p = multiprocessing.Process(
+            target=work, args=(value, MAX_COUNT_PER_PROCESS))
         p.start()
         processes.append(p)
 

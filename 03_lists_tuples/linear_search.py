@@ -17,14 +17,14 @@ if __name__ == "__main__":
         for needle in (1, 6000, 9000, 1000000):
             index = linear_search(needle, haystack)
             t = timeit.timeit(
-                stmt = 'linear_search(needle, haystack)',
-                setup = setup,
-                number = iterations
+                stmt='linear_search(needle, haystack)',
+                setup=setup,
+                number=iterations
             )
             print "Value {: <8} found in haystack of size {: <8} at index " \
-                    "{: <8} in {:.5e} seconds".format(
-                needle, 
-                len(haystack),
-                index, 
-                t / iterations
-            )
+                "{: <8} in {:.5e} seconds".format(
+                    needle,
+                    len(haystack),
+                    index,
+                    t / iterations
+                )

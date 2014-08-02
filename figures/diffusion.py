@@ -7,19 +7,21 @@ import urllib
 
 grid_shape = (512, 512)
 
+
 def roll_add(rollee, shift, axis, out):
     if shift == 1 and axis == 0:
-        out[1:, :] += rollee[:-1, :]
-        out[0 , :] += rollee[-1,  :]
+        out[1:, :] += rollee[:-1,:]
+        out[0, :] += rollee[-1,:]
     elif shift == -1 and axis == 0:
-        out[:-1, :] += rollee[1:, :]
-        out[-1 , :] += rollee[0,  :]
+        out[:-1, :] += rollee[1:,:]
+        out[-1, :] += rollee[0,:]
     elif shift == 1 and axis == 1:
         out[:, 1:] += rollee[:, :-1]
-        out[:, 0 ] += rollee[:,  -1]
+        out[:, 0] += rollee[:,  -1]
     elif shift == -1 and axis == 1:
         out[:, :-1] += rollee[:, 1:]
         out[:,  -1] += rollee[:,  0]
+
 
 def laplacian(grid, out):
     copyto(out, grid)
@@ -28,6 +30,7 @@ def laplacian(grid, out):
     roll_add(grid, -1, 0, out)
     roll_add(grid, +1, 1, out)
     roll_add(grid, -1, 1, out)
+
 
 def evolve(grid, dt, out, D=1):
     laplacian(grid, out)
@@ -40,16 +43,17 @@ if __name__ == "__main__":
     block_high = int(grid_shape[0] * .5)
     grid_square[block_low:block_high, block_low:block_high] = 0.005
 
-    grid_python = 1 - py.imread(urllib.urlopen("http://a4.mzstatic.com/us/r30/Purple4/v4/e8/20/fd/e820fded-8a78-06ac-79d0-f1d140346976/mzl.huoealqj.png")).mean(2)
+    grid_python = 1 - py.imread(urllib.urlopen(
+        "http://a4.mzstatic.com/us/r30/Purple4/v4/e8/20/fd/e820fded-8a78-06ac-79d0-f1d140346976/mzl.huoealqj.png")).mean(2)
     grid_python = asarray(grid_python, dtype='float64')
     scratch_python = empty(grid_python.shape)
 
-    py.subplot(3,2,1)
+    py.subplot(3, 2, 1)
     py.imshow(grid_square.copy())
     py.ylabel("t = 0 seconds")
     py.gca().get_xaxis().set_ticks([])
     py.gca().get_yaxis().set_ticks([])
-    py.subplot(3,2,2)
+    py.subplot(3, 2, 2)
     py.imshow(grid_python.copy())
     py.gca().get_xaxis().set_ticks([])
     py.gca().get_yaxis().set_ticks([])
@@ -61,12 +65,12 @@ if __name__ == "__main__":
         evolve(grid_python, 0.1, scratch_python)
         grid_python, scratch_python = scratch_python, grid_python
 
-    py.subplot(3,2,3)
+    py.subplot(3, 2, 3)
     py.imshow(grid_square.copy())
     py.ylabel("t = 50 seconds")
     py.gca().get_xaxis().set_ticks([])
     py.gca().get_yaxis().set_ticks([])
-    py.subplot(3,2,4)
+    py.subplot(3, 2, 4)
     py.imshow(grid_python.copy())
     py.gca().get_xaxis().set_ticks([])
     py.gca().get_yaxis().set_ticks([])
@@ -78,12 +82,12 @@ if __name__ == "__main__":
         evolve(grid_python, 0.2, scratch_python)
         grid_python, scratch_python = scratch_python, grid_python
 
-    py.subplot(3,2,5)
+    py.subplot(3, 2, 5)
     py.imshow(grid_square.copy())
     py.ylabel("t = 250 seconds")
     py.gca().get_xaxis().set_ticks([])
     py.gca().get_yaxis().set_ticks([])
-    py.subplot(3,2,6)
+    py.subplot(3, 2, 6)
     py.imshow(grid_python.copy())
     py.gca().get_xaxis().set_ticks([])
     py.gca().get_yaxis().set_ticks([])
@@ -93,4 +97,3 @@ if __name__ == "__main__":
 
     py.savefig("images/diffusion.png")
     py.show()
-

@@ -1,5 +1,6 @@
 from math import sin
 
+
 def tight_loop_slow(iterations):
     """
     >>> %timeit tight_loop_slow(10000000)
@@ -8,7 +9,8 @@ def tight_loop_slow(iterations):
     result = 0
     for i in xrange(iterations):
         # this call to sin requires a global lookup
-        result += sin(i) 
+        result += sin(i)
+
 
 def tight_loop_fast(iterations):
     """

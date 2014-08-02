@@ -28,7 +28,7 @@ nbr_parallel_blocks = 4
 map_inputs = [nbr_samples] * nbr_parallel_blocks
 t1 = time.time()
 results = pool.map(estimate_nbr_points_in_circle, map_inputs)
-#pool.close()
+# pool.close()
 print results
 print "Took {}s".format(time.time() - t1)
 nbr_in_circle = sum(results)

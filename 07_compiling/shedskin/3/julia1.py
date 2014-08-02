@@ -23,7 +23,8 @@ def calc_pure_python(desired_width, max_iterations):
         xcoord += x_step
     # build a list of co-ordinates and the initial condition for each cell.
     # Note that our initial condition is a constant and could easily be removed,
-    # we use it to simulate a real-world scenario with several inputs to our function
+    # we use it to simulate a real-world scenario with several inputs to our
+    # function
     zs = []
     cs = []
     for ycoord in y:

@@ -11,10 +11,11 @@ c_real, c_imag = -0.62772, -.42193
 # type output
 #('output has type:', array(int32, 1d, C))
 #('zs has type:', array(complex128, 1d, C))
-#cs has type: array(complex128, 1d, C)
-#output has type: array(int32, 1d, C)
+# cs has type: array(complex128, 1d, C)
+# output has type: array(int32, 1d, C)
 
-@jit()  #(nopython=True)
+
+@jit()  # (nopython=True)
 def calculate_z_serial_purepython(maxiter, zs, cs, output):
     """Calculate output list using Julia update rule"""
     #output = numba.numpy_support.numpy.zeros(len(zs), dtype=np.int32)
@@ -26,12 +27,12 @@ def calculate_z_serial_purepython(maxiter, zs, cs, output):
         n = 0
         z = zs[i]
         c = cs[i]
-        #while n < maxiter and abs(z) < 2:
-        while n < maxiter and z.real*z.real+z.imag*z.imag < 4:
+        # while n < maxiter and abs(z) < 2:
+        while n < maxiter and z.real * z.real + z.imag * z.imag < 4:
             z = z * z + c
             n += 1
         output[i] = n
-    #return output
+    # return output
 
 
 #@profile
@@ -51,7 +52,8 @@ def calc_pure_python(draw_output, desired_width, max_iterations):
         xcoord += x_step
     # build a list of co-ordinates and the initial condition for each cell.
     # Note that our initial condition is a constant and could easily be removed,
-    # we use it to simulate a real-world scenario with several inputs to our function
+    # we use it to simulate a real-world scenario with several inputs to our
+    # function
     zs = []
     cs = []
     for ycoord in y:

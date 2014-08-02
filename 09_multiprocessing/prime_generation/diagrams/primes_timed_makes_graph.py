@@ -17,7 +17,11 @@ def check_prime(N):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Project description')
-    parser.add_argument('--create_data', action="store_true", default=False, help='if present then calculate data, if absent then plot')
+    parser.add_argument(
+        '--create_data',
+        action="store_true",
+        default=False,
+        help='if present then calculate data, if absent then plot') 
     args = parser.parse_args()
     filename = "08_prime_time_cost_1e4to1e6.pickle"
 
@@ -48,21 +52,32 @@ if __name__ == "__main__":
         print primes[:10], primes[-10:]
         are_primes = np.array(are_primes)
         times = np.array(times)
-        cPickle.dump((numbers_to_test, are_primes, times), open(filename, 'wb'))
+        cPickle.dump(
+            (numbers_to_test, are_primes, times), open(filename, 'wb'))
     else:
         numbers_to_test, are_primes, times = cPickle.load(open(filename))
         # plot the two items three times, the last doesn't have a label (but is
         # there to over-plot the Not Prime result), so the Legend items are
         # displayed in the correct sequence
-        plt.plot(numbers_to_test[are_primes], times[are_primes], 'x', color='k', alpha=1, label="Prime")
-        plt.plot(numbers_to_test[are_primes==False], times[are_primes==False], '.', color='b', alpha=0.6, label="Not prime")
-        plt.plot(numbers_to_test[are_primes], times[are_primes], 'x', color='k', alpha=1, )
+        plt.plot(numbers_to_test[are_primes], times[
+                 are_primes], 'x', color='k', alpha=1, label="Prime")
+        plt.plot(
+            numbers_to_test[
+                are_primes == False],
+            times[
+                are_primes == False],
+            '.',
+            color='b',
+            alpha=0.6,
+             label="Not prime") 
+        plt.plot(numbers_to_test[are_primes], times[
+                 are_primes], 'x', color='k', alpha=1, )
         plt.xlabel("Integers to test")
         plt.ylabel("Seconds per test")
         plt.title("Time cost for checking primality")
         plt.ylim(0, 0.00015)  # fits neatly on Ian's laptop
-        #plt.grid()
+        # plt.grid()
         plt.legend()
         plt.savefig("08_prime_time_cost_1e4to1e6.png")
         plt.tight_layout()
-        #plt.show()
+        # plt.show()

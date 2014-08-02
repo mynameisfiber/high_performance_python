@@ -1,10 +1,12 @@
 import time
 
+
 def norm_square_list(vector):
     norm = 0
     for v in vector:
-        norm += v*v
+        norm += v * v
     return norm
+
 
 def run_experiment(size, num_iter=3):
     vector = range(size)

@@ -19,8 +19,16 @@ def check_prime(n):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Project description')
     parser.add_argument('type', type=int, default=1, help='type 1 or 2')
-    parser.add_argument('--create_data', action="store_true", default=False, help='if present then calculate data, if absent then plot')
-    parser.add_argument('--shuffle', action="store_true", default=False, help='randomly shuffle the job sequence')
+    parser.add_argument(
+        '--create_data',
+        action="store_true",
+        default=False,
+        help='if present then calculate data, if absent then plot') 
+    parser.add_argument(
+        '--shuffle',
+        action="store_true",
+        default=False,
+        help='randomly shuffle the job sequence') 
     args = parser.parse_args()
 
     primes = []
@@ -37,14 +45,18 @@ if __name__ == "__main__":
     plot_type = args.type
     CREATE_DATA = args.create_data
     print args
-    filename = "primes_pool_plot_chunksize_{}type{}.pickle".format(shuffle_in_filename, plot_type)
-    png_filename = "08_primes_pool_plot_chunksizetimes_1to50000_{}plottype{}.png".format(shuffle_in_filename, plot_type)
+    filename = "primes_pool_plot_chunksize_{}type{}.pickle".format(
+        shuffle_in_filename, plot_type)
+    png_filename = "08_primes_pool_plot_chunksizetimes_1to50000_{}plottype{}.png".format(
+        shuffle_in_filename,
+        plot_type) 
 
     if CREATE_DATA:
         time_per_chunksize = []
         if plot_type == 1:
             # plot the main effect:
-            chunksizes = [1, 2, 3, 4, 5, 8, 10, 50, 100, 1000, 5000, 10000, 50000]
+            chunksizes = [
+                1, 2, 3, 4, 5, 8, 10, 50, 100, 1000, 5000, 10000, 50000]
         if plot_type == 2:
             chunksizes = [1, 2, 4, 8, 16, 32, 64]
 
@@ -68,9 +80,11 @@ if __name__ == "__main__":
         mp_chunksize, mp_extra = divmod(len(number_range), NBR_PROCESSES * 4)
         if mp_extra:
             mp_chunksize += 1
-        cPickle.dump((chunksizes, time_per_chunksize, mp_extra, mp_chunksize, mp_default_time), open(filename, 'wb'))
+        cPickle.dump((chunksizes, time_per_chunksize, mp_extra,
+                      mp_chunksize, mp_default_time), open(filename, 'wb'))
     else:
-        chunksizes, time_per_chunksize, mp_extra, mp_chunksize, mp_default_time = cPickle.load(open(filename))
+        chunksizes, time_per_chunksize, mp_extra, mp_chunksize, mp_default_time = cPickle.load(
+            open(filename))
         # make a figure, show the experimental timings
         f = plt.figure(1)
         plt.clf()
@@ -98,9 +112,13 @@ if __name__ == "__main__":
         if plot_type == 2:
             plt.xlim(xmin=-0.5)
             plt.ylim(ymax=2.7)
-        plt.title("Time cost of varying chunksizes with {} processes for\nprime checking in range [{}-{}]".format(NBR_PROCESSES, min(number_range), max(number_range)))
-        #plt.grid()
-        #plt.show()
+        plt.title(
+            "Time cost of varying chunksizes with {} processes for\nprime checking in range [{}-{}]".format(
+                NBR_PROCESSES,
+                min(number_range),
+                max(number_range))) 
+        # plt.grid()
+        # plt.show()
         # manually add plt.tight_layout()
         plt.tight_layout()
         plt.savefig(png_filename)

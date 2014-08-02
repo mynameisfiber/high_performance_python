@@ -1,6 +1,7 @@
 import time
 import numpy as np
 
+
 def y_is_in_circle(x, y):
     """Test if x,y coordinate lives within the radius of the unit circle"""
     circle_edge_y = np.sin(np.arccos(x))

@@ -9,8 +9,9 @@ import glob
 
 matches = []
 WIKIPEDIA_RAW_DIR = "/media/ian/data/wikipedia_data_dump/extracted/"
-WIKIPEDIA_FILES_ROOTS = glob.glob(os.path.join(WIKIPEDIA_RAW_DIR, "A*")) + \
-                        glob.glob(os.path.join(WIKIPEDIA_RAW_DIR, "B*"))  # ["/media/ian/data/wikipedia_data_dump/extracted/AA", "/media/ian/data/wikipedia_data_dump/extracted/AB"]  # off of western digital
+# ["/media/ian/data/wikipedia_data_dump/extracted/AA", "/media/ian/data/wikipedia_data_dump/extracted/AB"]  # off of western digital
+WIKIPEDIA_FILES_ROOTS = glob.glob(os.path.join(
+    WIKIPEDIA_RAW_DIR, "A*")) + glob.glob(os.path.join(WIKIPEDIA_RAW_DIR, "B*") )
 print "Working from raw roots:", WIKIPEDIA_FILES_ROOTS
 for wikipedia_files_root in WIKIPEDIA_FILES_ROOTS:
     for root, dirnames, filenames in os.walk(wikipedia_files_root):
@@ -40,5 +41,3 @@ if __name__ == "__main__":
     with codecs.open(SUMMARISED_FILE, 'w', 'utf-8') as f:
         for word in words_set:
             f.write(word + "\n")
-
-

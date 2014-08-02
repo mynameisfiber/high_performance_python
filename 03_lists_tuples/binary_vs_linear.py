@@ -3,21 +3,22 @@ import timeit
 from linear_search import linear_search
 from binary_search import binary_search
 
+
 def time_and_log(function, needle, haystack):
     index = function(needle, haystack)
     t = timeit.timeit(
-        stmt = '{}(needle, haystack)'.format(function.func_name),
-        setup = setup,
-        number = iterations
+        stmt='{}(needle, haystack)'.format(function.func_name),
+        setup=setup,
+        number=iterations
     )
     print "[{}] Value {: <8} found in haystack of size {: <8} at index " \
-            "{: <8} in {:.2e} seconds".format(
-        function.func_name,
-        needle, 
-        len(haystack),
-        index, 
-        t / iterations
-    )
+        "{: <8} in {:.2e} seconds".format(
+            function.func_name,
+            needle,
+            len(haystack),
+            index,
+            t / iterations
+        )
 
 if __name__ == "__main__":
     setup = "from __main__ import " \

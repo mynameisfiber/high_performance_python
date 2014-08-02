@@ -8,6 +8,7 @@ from Cython.Distutils import build_ext
 # http://docs.python.org/install/index.html
 
 setup(
-        cmdclass = {'build_ext': build_ext},
-        ext_modules = [Extension("calculate", ["cython_np.pyx"], extra_compile_args=['-fopenmp'], extra_link_args=['-fopenmp'])]
-        )
+    cmdclass={'build_ext': build_ext},
+    ext_modules=[Extension("calculate", ["cython_np.pyx"], extra_compile_args=[
+                           '-fopenmp'], extra_link_args=['-fopenmp'])]
+)

@@ -14,4 +14,3 @@ if __name__ == "__main__":
         py.xlabel("Time")
         py.ylabel("Reuqest Number")
         py.savefig("images/{}.png".format(name))
-

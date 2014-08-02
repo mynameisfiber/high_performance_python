@@ -2,6 +2,7 @@ import time
 import numpy as np
 from numba import autojit
 
+
 @autojit()
 def y_is_in_circle(x, y):
     """Test if x,y coordinate lives within the radius of the unit circle"""

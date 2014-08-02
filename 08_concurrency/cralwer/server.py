@@ -10,8 +10,10 @@ from collections import defaultdict
 
 options.define("port", default=8080, help="Port to serve on")
 
+
 class AddMetric(web.RequestHandler):
     metric_data = defaultdict(list)
+
     @gen.coroutine
     def get(self):
         if self.get_argument("flush", False):
@@ -29,11 +31,10 @@ class AddMetric(web.RequestHandler):
             self.finish()
             end = time.time()
             self.metric_data[name].append({
-                "start" : start,
-                "end" : end,
-                "dt" : end - start,
+                "start": start,
+                "end": end,
+                "dt": end - start,
             })
-
 
 
 if __name__ == "__main__":

@@ -16,9 +16,11 @@ import json
 markers = cycle('h*o>Dxsp8')
 linestyles = cycle(['-', ':', '--', '-.'])
 
+
 def generate_urls(base_url, num_urls):
     for i in xrange(num_urls):
         yield base_url + "".join(random.sample(string.ascii_lowercase, 10))
+
 
 def download(url, semaphore):
     try:
@@ -28,11 +30,13 @@ def download(url, semaphore):
         print "retrying: ", e
         return download(url, semaphore)
 
+
 def chunked_requests(urls, chunk_size=100):
     semaphore = Semaphore(chunk_size)
     requests = [gevent.spawn(download, u, semaphore) for u in urls]
     for response in gevent.iwait(requests):
         yield response
+
 
 def run_experiment(base_url, num_iter=500, parallel_requests=100):
     urls = generate_urls(base_url, num_iter)
@@ -50,13 +54,14 @@ if __name__ == "__main__":
 
         data = {}
         for delay in xrange(50, 1000, 250):
-            base_url = "http://127.0.0.1:8080/add?name=concurrency_test&delay={}&".format(delay)
+            base_url = "http://127.0.0.1:8080/add?name=concurrency_test&delay={}&".format(
+                delay)
             data[delay] = []
             for parallel_requests in xrange(1, num_iter, 25):
                 start = time.time()
                 result = run_experiment(base_url, num_iter, parallel_requests)
                 t = time.time() - start
-                print("{},{},{}".format(delay,parallel_requests, t))
+                print("{},{},{}".format(delay, parallel_requests, t))
                 data[delay].append((parallel_requests, t))
 
         json.dump(data, open("parallel_requests.json", "w+"))
@@ -64,12 +69,12 @@ if __name__ == "__main__":
         py.figure()
         for delay, values in data.iteritems():
             values = np.asarray(values)
-            py.plot(values[:,0], values[:,1], 
-                label="{}s request time".format(delay),
-                linestyle=linestyles.next(),
-                marker=markers.next(),
-                linewidth=4,
-            )
+            py.plot(values[:, 0], values[:, 1],
+                    label="{}s request time".format(delay),
+                    linestyle=linestyles.next(),
+                    marker=markers.next(),
+                    linewidth=4,
+                    )
 
         py.axvline(x=100, alpha=0.5, c='r')
         ax = py.gca()

@@ -36,7 +36,8 @@ def calc_pure_python(draw_output, desired_width, max_iterations):
         x.append(xcoord)
         xcoord += x_step
 
-    from guppy import hpy; hp = hpy()
+    from guppy import hpy
+    hp = hpy()
     print "heapy after creating y and x lists of floats"
     h = hp.heap()
     print h
@@ -46,7 +47,8 @@ def calc_pure_python(draw_output, desired_width, max_iterations):
     # pre-rounding desired width and height
     # build a list of co-ordinates and the initial condition for each cell.
     # Note that our initial condition is a constant and could easily be removed,
-    # we use it to simulate a real-world scenario with several inputs to our function
+    # we use it to simulate a real-world scenario with several inputs to our
+    # function
     zs = []
     cs = []
     for ycoord in y:
@@ -73,7 +75,8 @@ def calc_pure_python(draw_output, desired_width, max_iterations):
     print h
     print
 
-    assert sum(output) == 33219980  # this sum is expected for 1000^2 grid with 300 iterations
+    # this sum is expected for 1000^2 grid with 300 iterations
+    assert sum(output) == 33219980
 
 
 # Calculate the Julia set using a pure Python solution with

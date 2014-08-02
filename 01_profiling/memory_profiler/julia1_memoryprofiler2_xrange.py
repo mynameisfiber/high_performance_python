@@ -46,7 +46,8 @@ def calc_pure_python(draw_output, desired_width, max_iterations):
     height = len(y)
     # build a list of co-ordinates and the initial condition for each cell.
     # Note that our initial condition is a constant and could easily be removed,
-    # we use it to simulate a real-world scenario with several inputs to our function
+    # we use it to simulate a real-world scenario with several inputs to our
+    # function
     zs = []
     cs = []
     for ycoord in y:
@@ -62,7 +63,8 @@ def calc_pure_python(draw_output, desired_width, max_iterations):
     secs = end_time - start_time
     print calculate_z_serial_purepython.func_name + " took", secs, "seconds"
 
-    assert sum(output) == 33219980  # this sum is expected for 1000^2 grid with 300 iterations
+    # this sum is expected for 1000^2 grid with 300 iterations
+    assert sum(output) == 33219980
 
 
 if __name__ == "__main__":

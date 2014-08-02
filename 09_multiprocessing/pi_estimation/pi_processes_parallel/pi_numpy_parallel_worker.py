@@ -9,15 +9,25 @@ def estimate_nbr_points_in_quarter_circle(nbr_samples):
     xs = np.random.uniform(0, 1, nbr_samples)
     ys = np.random.uniform(0, 1, nbr_samples)
     estimate_inside_quarter_unit_circle = (xs * xs + ys * ys) <= 1
-    nbr_trials_in_quarter_unit_circle = np.sum(estimate_inside_quarter_unit_circle)
+    nbr_trials_in_quarter_unit_circle = np.sum(
+        estimate_inside_quarter_unit_circle)
     return nbr_trials_in_quarter_unit_circle
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Project description')
-    parser.add_argument('nbr_workers', type=int, help='Number of workers e.g. 1, 2, 4, 8')
-    parser.add_argument('--nbr_samples_in_total', type=int, default=1e8, help='Number of samples in total e.g. 100000000')
-    parser.add_argument('--processes', action="store_true", default=False, help='True if using Processes, absent (False) for Threads')
+    parser.add_argument(
+        'nbr_workers', type=int, help='Number of workers e.g. 1, 2, 4, 8')
+    parser.add_argument(
+        '--nbr_samples_in_total',
+        type=int,
+        default=1e8,
+        help='Number of samples in total e.g. 100000000') 
+    parser.add_argument(
+        '--processes',
+        action="store_true",
+        default=False,
+        help='True if using Processes, absent (False) for Threads') 
 
     args = parser.parse_args()
     if args.processes:

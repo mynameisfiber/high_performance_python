@@ -29,8 +29,8 @@ print zs2[:20]
 from matplotlib import pyplot as plt
 f = plt.figure(1)
 plt.clf()
-plt.plot(zs1, 'o-', linewidth=4, label="z="+str(z1))
-plt.plot(zs2, 'd:', linewidth=4, label="z="+str(z2))
+plt.plot(zs1, 'o-', linewidth=4, label="z=" + str(z1))
+plt.plot(zs2, 'd:', linewidth=4, label="z=" + str(z2))
 
 plt.annotate("cutoff", (25, 1.9), fontsize="large")
 plt.hlines(2, 0, 50, colors='k', linewidth=4, linestyles="dashed")

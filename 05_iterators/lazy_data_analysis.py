@@ -4,20 +4,24 @@ from random import (normalvariate, random)
 from datetime import (date, datetime)
 from itertools import (count, groupby, ifilter, imap, islice)
 
+
 def read_data(filename):
     with open(filename) as fd:
         for line in fd:
             data = line.strip().split(',')
             yield map(int, data)
 
+
 def read_fake_data(filename):
     for i in count():
         sigma = random() * 2
         yield (i, normalvariate(0, sigma))
 
+
 def day_grouper(iterable):
-    key = lambda (timestamp, value) : date.fromtimestamp(timestamp)
+    key = lambda (timestamp, value): date.fromtimestamp(timestamp)
     return groupby(iterable, key)
+
 
 def check_anomaly((day, day_data)):
     # We find the mean, standard deviation and maximum values for the day.
@@ -30,10 +34,10 @@ def check_anomaly((day, day_data)):
     for timestamp, value in day_data:
         n += 1
         delta = value - mean
-        mean = mean + delta/n
-        M2 += delta*(value - mean)
+        mean = mean + delta / n
+        M2 += delta * (value - mean)
         max_value = max(max_value, value)
-    variance = M2/(n - 1)
+    variance = M2 / (n - 1)
     standard_deviation = math.sqrt(variance)
 
     # Here is the actual check of whether that day's data is anomalous.  If it
@@ -41,6 +45,7 @@ def check_anomaly((day, day_data)):
     if max_value > mean + 6 * standard_deviation:
         return day
     return False
+
 
 def rolling_window_grouper(data, window_size=3600):
     window = tuple(islice(data, 0, window_size))
@@ -68,7 +73,3 @@ if __name__ == "__main__":
     print "The first anomalous date is: ", first_anomalous_date
     next_10_dates = islice(anomalous_dates, 10)
     print "The next 10 anomalous dates are: ", list(next_10_dates)
-
-
-
-    

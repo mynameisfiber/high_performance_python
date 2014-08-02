@@ -9,7 +9,9 @@ import time
 options.define("port", default=8080, help="Port to serve on")
 primes = set()
 
+
 class AddPrime(web.RequestHandler):
+
     @gen.coroutine
     def get(self):
         prime = int(self.get_argument("prime"))
@@ -31,4 +33,3 @@ if __name__ == "__main__":
     http_server.listen(port)
     print("Listening on port: {}".format(port))
     ioloop.IOLoop.instance().start()
-

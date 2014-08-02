@@ -5,7 +5,7 @@ import time
 
 def y_is_in_circle(x, y):
     """Test if x,y coordinate lives within the radius of the unit circle"""
-    return x*x + y*y <= 1.0
+    return x * x + y * y <= 1.0
 
 
 def estimate_nbr_points_in_circle(nbr_samples):

@@ -8,6 +8,7 @@ import memory_profiler
 init = " " * int(1e10)
 arr = array.array('c', init)
 
+
 def f(a, v):
     print "running", os.getpid(), len(a)
     print "in process", memory_profiler.memory_usage()
@@ -19,7 +20,7 @@ def f(a, v):
 value = Value('L')
 print value
 print "before making process", memory_profiler.memory_usage()
-p = mp.Process(target = f, args = (arr,value))
+p = mp.Process(target=f, args=(arr, value))
 print "after making process", memory_profiler.memory_usage()
 p.start()
 print "after making process 2", memory_profiler.memory_usage()

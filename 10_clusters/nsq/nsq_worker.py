@@ -7,6 +7,7 @@ from math import sqrt
 from functools import partial
 import ujson as json
 
+
 def is_prime(number):
     if number % 2 == 0:
         return False
@@ -14,6 +15,7 @@ def is_prime(number):
         if number % i == 0:
             return False
     return True
+
 
 @gen.coroutine
 def write_message(topic, data, writer):
@@ -23,6 +25,7 @@ def write_message(topic, data, writer):
         yield write_message(data, writer)
     else:
         print "Published Message: ", data
+
 
 def calculate_prime(message, writer):
     message.enable_async()
@@ -43,9 +46,9 @@ if __name__ == "__main__":
     writer = nsq.Writer(['127.0.0.1:4150', ])
     handler = partial(calculate_prime, writer=writer)
     reader = nsq.Reader(
-        message_handler = handler,
-        nsqd_tcp_addresses = ['127.0.0.1:4150', ],
-        topic = 'numbers', 
-        channel = 'worker_group_a',
+        message_handler=handler,
+        nsqd_tcp_addresses=['127.0.0.1:4150', ],
+        topic='numbers',
+        channel='worker_group_a',
     )
     nsq.run()

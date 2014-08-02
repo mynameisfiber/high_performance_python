@@ -8,19 +8,23 @@ from contextlib import closing
 import string
 import random
 
+
 def generate_urls(base_url, num_urls):
     for i in xrange(num_urls):
         yield base_url + "".join(random.sample(string.ascii_lowercase, 10))
 
+
 def download(url, semaphore):
     with semaphore, closing(urllib2.urlopen(url)) as data:
         return data.read()
+
 
 def chunked_requests(urls, chunk_size=100):
     semaphore = Semaphore(chunk_size)
     requests = [gevent.spawn(download, u, semaphore) for u in urls]
     for response in gevent.iwait(requests):
         yield response
+
 
 def run_experiment(base_url, num_iter=500):
     urls = generate_urls(base_url, num_iter)
@@ -38,5 +42,3 @@ if __name__ == "__main__":
     result = run_experiment(base_url, num_iter)
     end = time.time()
     print("Result: {}, Time: {}".format(result, end - start))
-
-

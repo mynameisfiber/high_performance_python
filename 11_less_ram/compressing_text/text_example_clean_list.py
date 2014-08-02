@@ -29,4 +29,3 @@ if __name__ == "__main__":
     with codecs.open(SUMMARISED_FILE, 'w', 'Windows-1252') as f:
         for word in words_set:
             f.write(word + "\n")
-

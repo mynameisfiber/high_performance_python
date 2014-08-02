@@ -5,19 +5,22 @@ import time
 
 grid_size = (512, )
 
+
 def laplacian(grid):
-    lap = [0.0,] * grid_size[0]
+    lap = [0.0, ] * grid_size[0]
     xmax, = grid_size
     for i in xrange(grid_size[0]):
-        grid_xx = grid[(i+1)%xmax] + grid[(i-1)%xmax] - 2.0 * grid[i]
+        grid_xx = grid[(i + 1) % xmax] + grid[(i - 1) % xmax] - 2.0 * grid[i]
         lap[i] = grid_xx
     return lap
+
 
 def evolve(grid, dt, D=1.0):
     lap = laplacian(grid)
     for i in xrange(grid_size[0]):
         grid[i] += D * lap[i] * dt
     return grid
+
 
 def run_experiment(num_iterations):
     # setting up initial conditions

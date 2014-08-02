@@ -5,16 +5,19 @@ import time
 
 grid_size = (512,)
 
+
 def laplacian(grid, out):
     np.copyto(out, grid)
     np.multiply(out, -2.0, out)
     np.add(out, np.roll(grid, +1), out)
     np.add(out, np.roll(grid, -1), out)
 
+
 def evolve(grid, dt, out, D=1):
     laplacian(grid, out)
-    np.multiply(out, D*dt, out)
+    np.multiply(out, D * dt, out)
     np.add(out, grid, out)
+
 
 def run_experiment(num_iterations):
     scratch = np.zeros(grid_size)
@@ -32,4 +35,3 @@ def run_experiment(num_iterations):
 
 if __name__ == "__main__":
     run_experiment(500)
-

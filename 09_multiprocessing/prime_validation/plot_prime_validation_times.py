@@ -2,10 +2,15 @@ import argparse
 import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser(description='Project description')
-parser.add_argument('--slow', action="store_true", default=False, help='if present then draw slow result, if not then fast results')
+parser.add_argument(
+    '--slow',
+    action="store_true",
+    default=False,
+     help='if present then draw slow result, if not then fast results') 
 args = parser.parse_args()
 
-labels = ["small non-prime", "large non-prime 1", "large non-prime 2", "prime 1", "prime 2"]
+labels = ["small non-prime", "large non-prime 1",
+          "large non-prime 2", "prime 1", "prime 2"]
 
 times_primes = [0.000002, 3.54, 6.35, 11.72, 11.74]
 times_primes_pool_per_number1 = [0.09, 2.93, 2.97, 3.09, 2.98]
@@ -17,13 +22,16 @@ times_primes_pool_per_number_value = [0.000002, 0.94, 0.78, 4.69, 4.68]
 times_primes_pool_per_number_mmap = [0.000003, 0.92, 0.77, 4.59, 4.59]
 times_primes_pool_per_number_mmap3 = [0.000003, 0.61, 0.50, 3.03, 3.04]
 
-method_labels_slower = ["Serial (No IPC)", "Less naive Pool", "Redis flag", "Manager flag"]  # , "Manager flag", "Value flag", "MMap flag"]
+# , "Manager flag", "Value flag", "MMap flag"]
+method_labels_slower = [
+    "Serial (No IPC)", "Less naive Pool", "Redis flag", "Manager flag"]
 all_times_slower = [times_primes,
                     times_primes_pool_per_number2,
                     times_primes_pool_per_number_redis,
                     times_primes_pool_per_number_manager]
 
-method_labels_faster = ["Less naive Pool", "RawValue flag", "MMap flag", "MMap Redux flag"]
+method_labels_faster = [
+    "Less naive Pool", "RawValue flag", "MMap flag", "MMap Redux flag"]
 all_times_faster = [times_primes_pool_per_number2,
                     times_primes_pool_per_number_value,
                     times_primes_pool_per_number_mmap,
@@ -52,7 +60,8 @@ plt.clf()
 
 for times, label, symbol, linestyle in zip(all_times, method_labels, symbols, linestyles):
     #plt.scatter(range(len(labels)), times, label=label, marker=symbol)
-    plt.plot(range(len(labels)), times, label=label, marker=symbol, linestyle=linestyle)
+    plt.plot(range(len(labels)), times, label=label,
+             marker=symbol, linestyle=linestyle)
 
 plt.title(title)
 plt.legend(loc="upper left")

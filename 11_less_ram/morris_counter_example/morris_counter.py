@@ -2,9 +2,11 @@
 # -*- coding: utf-8 -*-
 """Approximate Morris Counter supporting many counters"""
 from __future__ import division  # 1/2 == 0.5, as in Py3
-from __future__ import absolute_import  # avoid hiding global modules with locals
+# avoid hiding global modules with locals
+from __future__ import absolute_import
 from __future__ import print_function  # force use of print("hello")
-from __future__ import unicode_literals  # force unadorned strings "" to be unicode without prepending u""
+# force unadorned strings "" to be unicode without prepending u""
+from __future__ import unicode_literals
 import math
 import random
 import array
@@ -15,9 +17,11 @@ SMALLEST_UNSIGNED_INTEGER = b'B'  # typically 1 byte on 64 bit systems
 
 
 class MorrisCounter(object):
+
     """Approximate counter, stores exponent and counts approximately 2^exponent
 
     https://en.wikipedia.org/wiki/Approximate_counting_algorithm"""
+
     def __init__(self, type_code=SMALLEST_UNSIGNED_INTEGER, nbr_counters=1):
         self.exponents = array.array(type_code, [0] * nbr_counters)
 

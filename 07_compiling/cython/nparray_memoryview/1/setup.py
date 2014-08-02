@@ -8,6 +8,6 @@ from Cython.Distutils import build_ext
 # http://docs.python.org/install/index.html
 
 setup(
-        cmdclass = {'build_ext': build_ext},
-        ext_modules = [Extension("calculate", ["cython_np.pyx"])]
-        )
+    cmdclass={'build_ext': build_ext},
+    ext_modules=[Extension("calculate", ["cython_np.pyx"])]
+)

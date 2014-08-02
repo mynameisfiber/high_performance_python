@@ -2,15 +2,18 @@ import bitarray
 import math
 import mmh3
 
+
 class BloomFilter(object):
+
     def __init__(self, capacity, error=0.005):
         """
         Initialize a bloom filter with given capacity and false positive rate
         """
         self.capacity = capacity
         self.error = error
-        self.num_bits = int(-capacity * math.log(error) / math.log(2)**2) + 1
-        self.num_hashes = int(self.num_bits * math.log(2) / float(capacity)) + 1
+        self.num_bits = int(-capacity * math.log(error) / math.log(2) ** 2) + 1
+        self.num_hashes = int(
+            self.num_bits * math.log(2) / float(capacity)) + 1
         self.data = bitarray.bitarray(self.num_bits)
 
     def _indexes(self, key):
@@ -27,7 +30,9 @@ class BloomFilter(object):
 
     def __len__(self):
         num_bits_on = self.data.count(True)
-        return -1.0 * self.num_bits * math.log(1.0 - num_bits_on / float(self.num_bits)) / float(self.num_hashes)
+        return -1.0 * self.num_bits * \
+            math.log(1.0 - num_bits_on / float(self.num_bits)) / \
+                     float(self.num_hashes)
 
     @staticmethod
     def union(bloom_a, bloom_b):

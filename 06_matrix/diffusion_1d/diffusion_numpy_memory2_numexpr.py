@@ -6,13 +6,15 @@ import time
 
 grid_size = (512,)
 
+
 def roll_add(rollee, shift, out):
     if shift == 1:
         out[1:] += rollee[:-1]
-        out[0 ] += rollee[-1 ]
+        out[0] += rollee[-1]
     elif shift == -1:
         out[:-1] += rollee[1:]
-        out[ -1] += rollee[0 ]
+        out[-1] += rollee[0]
+
 
 def laplacian(grid, out):
     np.copyto(out, grid)
@@ -20,9 +22,11 @@ def laplacian(grid, out):
     roll_add(grid, +1, out)
     roll_add(grid, -1, out)
 
+
 def evolve(grid, dt, out, D=1):
     laplacian(grid, out)
     ne.evaluate("out*D*dt+grid", out=out)
+
 
 def run_experiment(num_iterations):
     scratch = np.zeros(grid_size)
@@ -40,6 +44,3 @@ def run_experiment(num_iterations):
 
 if __name__ == "__main__":
     run_experiment(500)
-
-
-

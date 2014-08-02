@@ -13,11 +13,12 @@ plt.clf()
 plt.scatter(ram_used, lookup_time, s=build_time)
 
 for ram, lookup, label in zip(ram_used, lookup_time, labels):
-    plt.annotate(label, (ram+15, lookup+0.0005))
+    plt.annotate(label, (ram + 15, lookup + 0.0005))
 
 plt.xlabel('RAM used (MB - lower is better)')
 plt.ylabel("Look-up time (seconds - lower is better)")
-plt.title("Container behavior for 8,545,076 tokens\nsize represents build time (smaller is better)")
+plt.title(
+    "Container behavior for 8,545,076 tokens\nsize represents build time (smaller is better)")
 plt.xlim(xmin=0)
 plt.tight_layout()
 plt.savefig("less_ram_tries_dawg_text_8545076_tokens.png")

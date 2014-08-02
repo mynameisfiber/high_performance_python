@@ -9,9 +9,9 @@ def work(value, max_count, lock):
     for n in range(max_count):
         with lock:
             value.value += 1
-        #lock.acquire()
+        # lock.acquire()
         #value.value += 1
-        #lock.release()
+        # lock.release()
 
 
 def run_workers():
@@ -22,7 +22,8 @@ def run_workers():
     lock = multiprocessing.Lock()
     value = multiprocessing.RawValue('i', 0)
     for process_nbr in range(NBR_PROCESSES):
-        p = multiprocessing.Process(target=work, args=(value, MAX_COUNT_PER_PROCESS, lock))
+        p = multiprocessing.Process(
+            target=work, args=(value, MAX_COUNT_PER_PROCESS, lock))
         p.start()
         processes.append(p)
 
