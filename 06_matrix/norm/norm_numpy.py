@@ -1,19 +1,13 @@
 import numpy
-import time
+import _util
 
 
 def norm_square_numpy(vector):
     return numpy.sum(vector * vector)
 
-
 def run_experiment(size, num_iter=3):
     vector = numpy.arange(size)
-    times = []
-    for i in xrange(num_iter):
-        start = time.time()
-        norm_square_numpy(vector)
-        times.append(time.time() - start)
-    return min(times)
+    return _util.run(norm_square_numpy, vector, num_iter)
 
 if __name__ == "__main__":
     print run_experiment(1000000, 10)
