@@ -41,7 +41,7 @@ if __name__ == "__main__":
             print "%s: %f" % (name, t)
 
     timings = list(timings.iteritems())
-    timings.sort(key = lambda (k, v) : v[-1][1], reverse=True)
+    timings.sort(key = lambda (k, v) : np.mean([i[1] for i in v]), reverse=True)
     for name, data in timings:
         d = np.asarray(data)
         py.plot(d[:, 0], d[:, 1], label=name, marker=markers.next(),
