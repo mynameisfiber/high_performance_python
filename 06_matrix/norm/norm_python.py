@@ -1,4 +1,4 @@
-import time
+import _util
 
 
 def norm_square_list(vector):
@@ -7,15 +7,9 @@ def norm_square_list(vector):
         norm += v * v
     return norm
 
-
 def run_experiment(size, num_iter=3):
     vector = range(size)
-    times = []
-    for i in xrange(num_iter):
-        start = time.time()
-        norm_square_list(vector)
-        times.append(time.time() - start)
-    return min(times)
+    return _util.run(norm_square_list, vector, num_iter)
 
 if __name__ == "__main__":
     print run_experiment(1000000, 10)
