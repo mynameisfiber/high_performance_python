@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+"""
+This code requires an instance of nsqd to be running locally on it's default
+port settings.
+"""
 
 import nsq
 from tornado import gen
