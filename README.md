@@ -74,7 +74,7 @@ Using the code base
 
 This code base is a live document and should be freely commented on and used.
 It is distributed with a license that amounts to: don't use the code for
-profit, however read the [provided license](license.md) file for the
+profit, however read the [provided license](LICENSE.md) file for the
 law-jargon.  Feel free to share, fork and comment on the code!
 
 If any errors are found, or you have a bone to pick with how we go about doing
