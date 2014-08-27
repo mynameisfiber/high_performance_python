@@ -15,7 +15,7 @@ CPU's and multiple computers.  In addition, throughout this exploration a focus
 is kept on keeping development time fast and learning from profiling output in
 order to direct optimizations.
 
-The following topics are covered,
+The following topics are covered in the code repo:
 
 - Chapter 1: Profiling
     - What are the ways to profile your code?
@@ -73,8 +73,9 @@ Using the code base
 -------------------
 
 This code base is a live document and should be freely commented on and used.
-All of the code within it is released under Creative Commons (CC BY-NC-ND 3.0).
-Feel free to share, fork and comment on the code!
+It is distributed with a license that amounts to: don't use the code for
+profit, however read the [provided license](license.md) file for the
+law-jargon.  Feel free to share, fork and comment on the code!
 
 If any errors are found, or you have a bone to pick with how we go about doing
 things, leave an issue on this repo!  Just keep in mind that all code was
