@@ -48,7 +48,7 @@ def check_anomaly(xxx_todo_changeme):
     return False
 
 
-def rolling_window_grouper(data, window_size=3600):
+def rolling_window_grouper(data, window_size):
     window = tuple(islice(data, 0, window_size))
     while True:
         current_datetime = datetime.fromtimestamp(window[0][0])
@@ -68,7 +68,7 @@ if __name__ == "__main__":
 
     print "Using rolling_window_grouper:"
     data = read_fake_data("fake_filename")
-    data_day = rolling_window_grouper(data)
+    data_day = rolling_window_grouper(data, window_size=86400)
     anomalous_dates = ifilter(None, imap(check_anomaly, data_day))
     first_anomalous_date = anomalous_dates.next()
     print "The first anomalous date is: ", first_anomalous_date
