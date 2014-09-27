@@ -13,7 +13,7 @@ def show_greyscale(output_raw, width, height, max_iterations):
     # convert our output to PIL-compatible input
     # scale to [0...255]
     max_iterations = float(max(output_raw))
-    print max_iterations
+    print (max_iterations)
     scale_factor = float(max_iterations)
     scaled = [int(o / scale_factor * 255) for o in output_raw]
     output = array.array('B', scaled)  # array of unsigned ints
@@ -88,13 +88,13 @@ def calc_pure_python(draw_output, desired_width, max_iterations):
             zs.append(complex(xcoord, ycoord))
             cs.append(complex(c_real, c_imag))
 
-    print "Length of x:", len(x)
-    print "Total elements:", len(zs)
+    print ("Length of x:", len(x))
+    print ("Total elements:", len(zs))
     start_time = time.time()
     output = calculate_z_serial_purepython(max_iterations, zs, cs)
     end_time = time.time()
     secs = end_time - start_time
-    print calculate_z_serial_purepython.__name__ + " took", secs, "seconds"
+    print (calculate_z_serial_purepython.__name__ + " took", secs, "seconds")
 
     # this sum is expected for 1000^2 grid with 300 iterations
     assert sum(output) == 33219980
