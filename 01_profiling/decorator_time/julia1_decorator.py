@@ -14,7 +14,7 @@ def timefn(fn):
         result = fn(*args, **kwargs)
         t2 = time.time()
         print (
-            "@timefn:" + fn.func_name + " took " + str(t2 - t1) + " seconds")
+            "@timefn:" + fn.__name__ + " took " + str(t2 - t1) + " seconds")
         return result
     return measure_time
 
@@ -65,7 +65,7 @@ def calc_pure_python(draw_output, desired_width, max_iterations):
     output = calculate_z_serial_purepython(max_iterations, zs, cs)
     end_time = time.time()
     secs = end_time - start_time
-    print calculate_z_serial_purepython.func_name + " took", secs, "seconds"
+    print calculate_z_serial_purepython.__name__ + " took", secs, "seconds"
 
     # this sum is expected for 1000^2 grid with 300 iterations
     assert sum(output) == 33219980
