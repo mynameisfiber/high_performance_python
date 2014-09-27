@@ -1,5 +1,7 @@
 """Julia set generator without optional PIL-based image drawing"""
+from __future__ import print_function
 import time
+
 
 # area of complex space to investigate
 x1, x2, y1, y2 = -1.8, 1.8, -1.8, 1.8

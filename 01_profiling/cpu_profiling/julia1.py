@@ -1,9 +1,11 @@
 """Julia set generator without optional PIL-based image drawing"""
 # Intall pillow (Python Imaging Library (Fork)) on python2 and python3
 # https://pypi.python.org/pypi/Pillow/2.5.3
+from __future__ import print_function
 import time
 from PIL import Image
 import array
+
 
 # area of complex space to investigate
 x1, x2, y1, y2 = -1.8, 1.8, -1.8, 1.8

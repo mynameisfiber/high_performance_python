@@ -1,6 +1,8 @@
 """Julia set generator with timing decorator"""
+from __future__ import print_function
 import time
 from functools import wraps
+
 
 # area of complex space to investigate
 x1, x2, y1, y2 = -1.8, 1.8, -1.8, 1.8
