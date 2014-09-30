@@ -1,6 +1,8 @@
 """Julia set generator with timing decorator"""
+from __future__ import print_function
 import time
 from functools import wraps
+
 
 # area of complex space to investigate
 x1, x2, y1, y2 = -1.8, 1.8, -1.8, 1.8
@@ -13,8 +15,8 @@ def timefn(fn):
         t1 = time.time()
         result = fn(*args, **kwargs)
         t2 = time.time()
-        print (
-            "@timefn:" + fn.func_name + " took " + str(t2 - t1) + " seconds")
+        print(
+            "@timefn:" + fn.__name__ + " took " + str(t2 - t1) + " seconds")
         return result
     return measure_time
 
@@ -35,7 +37,8 @@ def calculate_z_serial_purepython(maxiter, zs, cs):
 
 
 def calc_pure_python(draw_output, desired_width, max_iterations):
-    """Create a list of complex co-ordinates (zs) and complex parameters (cs), build Julia set and display"""
+    """Create a list of complex co-ordinates (zs) and complex parameters (cs),
+    build Julia set and display"""
     x_step = (float(x2 - x1) / float(desired_width))
     y_step = (float(y1 - y2) / float(desired_width))
     x = []
@@ -59,13 +62,13 @@ def calc_pure_python(draw_output, desired_width, max_iterations):
             zs.append(complex(xcoord, ycoord))
             cs.append(complex(c_real, c_imag))
 
-    print "Length of x:", len(x)
-    print "Total elements:", len(zs)
+    print("Length of x:", len(x))
+    print("Total elements:", len(zs))
     start_time = time.time()
     output = calculate_z_serial_purepython(max_iterations, zs, cs)
     end_time = time.time()
     secs = end_time - start_time
-    print calculate_z_serial_purepython.func_name + " took", secs, "seconds"
+    print(calculate_z_serial_purepython.__name__ + " took", secs, "seconds")
 
     # this sum is expected for 1000^2 grid with 300 iterations
     assert sum(output) == 33219980
