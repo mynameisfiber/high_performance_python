@@ -1,5 +1,5 @@
 """Julia set generator without optional PIL-based image drawing"""
-# Intall pillow (Python Imaging Library (Fork)) on python2 and python3
+# Intall pillow (Python Imaging Library (Fork)) on python2 or python3
 # https://pypi.python.org/pypi/Pillow/2.5.3
 from __future__ import print_function
 import time
