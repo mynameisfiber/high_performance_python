@@ -1,4 +1,4 @@
-"""Julia set generator without optional PIL-based image drawing"""
+"""Julia set generator with optional Pillow-based image drawing"""
 import time
 from PIL import Image
 import array
