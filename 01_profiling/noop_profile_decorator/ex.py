@@ -1,17 +1,15 @@
 import unittest
 
 #import pdb; pdb.set_trace()
-# bit of a hack to check
-# if 1) __builtin__ exists (for when using nosetests)
-# or 2) if 'profile' has been injected by line_profiler
 # if '__builtin__' not in dir() or not hasattr(__builtin__, 'profile'):
 # def profile(func):
 # def inner(*args, **kwargs):
 # return func(*args, **kwargs)
 # return inner
 
-# memory profile
-if 'profile' not in dir():
+try:
+    profile
+except NameError:
     def profile(func):
         def inner(*args, **kwargs):
             return func(*args, **kwargs)
