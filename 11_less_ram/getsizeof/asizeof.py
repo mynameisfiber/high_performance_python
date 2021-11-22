@@ -163,7 +163,7 @@ Notes
        C typedef of digit used in multi-precision int (or long)
        objects.  The size of digit in bytes can be obtained in
        Python from the int (or long) __itemsize__ attribute.
-       Function  leng (rather _len_int) below deterimines the
+       Function  leng (rather _len_int) below determines the
        number of digits from the int (or long) value.
 
    [4] These definitions and other assumptions are rather arbitrary
@@ -2134,7 +2134,7 @@ _asizer = Asizer()
 
 def asized(*objs, **opts):
     '''Return a tuple containing an  Asized instance for each
-       object passed as positional argment using the following
+       object passed as positional argument using the following
        options.
 
            align=8       -- size alignment
@@ -2171,7 +2171,7 @@ def asized(*objs, **opts):
 
 def asizeof(*objs, **opts):
     '''Return the combined size in bytes of all objects passed
-       as positional argments.
+       as positional arguments.
 
        The available options and defaults are the following.
 
@@ -2244,7 +2244,7 @@ def asizeof(*objs, **opts):
 
 def asizesof(*objs, **opts):
     '''Return a tuple containing the size in bytes of all objects
-       passed as positional argments using the following options.
+       passed as positional arguments using the following options.
 
            align=8       -- size alignment
            all=False     -- use GC objects and referents
